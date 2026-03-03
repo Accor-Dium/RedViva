@@ -1,3 +1,5 @@
+import { RESIZE_CARD_CONSTANTS } from "../../constants/components/layout";
+
 interface ImageProps {
   src: string;
   alt?: string;
@@ -15,9 +17,9 @@ const RATIO_MAP = {
 
 export function ResizeCard({ 
   src, 
-  alt = "", 
-  ratio = "1:1",
-  width = "100%",
+  alt = RESIZE_CARD_CONSTANTS.DEFAULT_ALT_TEXT, 
+  ratio = RESIZE_CARD_CONSTANTS.DEFAULT_RATIO,
+  width = RESIZE_CARD_CONSTANTS.DEFAULT_WIDTH,
   href,
   className = ""
 }: ImageProps) {
@@ -40,7 +42,7 @@ export function ResizeCard({
           rel="noopener noreferrer"
           className="block bg-white px-4 py-3 text-center text-gray-900 font-semibold  transition-colors"
         >
-          Haz click aquí
+          {RESIZE_CARD_CONSTANTS.BUTTON_TEXT}
         </a>
       )}
     </div>
