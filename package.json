@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "prisma generate && astro build",
+    "postinstall": "prisma generate",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -17,6 +18,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.17.1",
+    "dotenv": "^16.4.7",
     "prisma": "^7.4.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
