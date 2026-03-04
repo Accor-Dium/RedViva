@@ -1,0 +1,27 @@
+---
+const navLinks = [
+    { label: "Conócete", href: "/landing/conocete" },
+    { label: "Contacto", href: "/landing/contacto" },
+    { label: "Directorio", href: "/landing/directorio" }
+];
+---
+
+<nav class="sticky top-0 z-50 bg-transparent">
+    <div class="max-w-6xl mx-auto px-8 py-4 flex justify-center relative">
+        <div class=" w-64 h-48 bg-white absolute -top-10 left-0 rotate-3">
+            
+        </div>
+        <ul class="flex gap-8 list-none m-0 p-0">
+            {navLinks.map(link => (
+                <li>
+                    <a 
+                        href={link.href} 
+                        class="text-white text-opacity-50 font-medium transition-all duration-300 border-b-2 border-transparent hover:text-opacity-100 hover:border-white"
+                    >
+                        {link.label}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+</nav>

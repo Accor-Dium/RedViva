@@ -1,15 +1,35 @@
 ---
 import '../../styles/global.css';
+import Background from '../../components/Background.astro';
+import Navbar from '../../components/Navbar.astro';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+    gradientFrom?: string;
+    gradientTo?: string;
+}
+
+const { gradientFrom, gradientTo } = Astro.props as Props;
 ---
 
 <html lang="es">
     <head>
+        <ClientRouter />
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width"/>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
         <title></title>
+        <style>
+            body {
+                margin: 0;
+                overflow-x: hidden;
+                position: relative;
+            }
+        </style>
     </head>
     <body>
+        <Navbar />
+        <Background gradientFrom={gradientFrom} gradientTo={gradientTo} />
         <slot/>
     </body>
 </html>
