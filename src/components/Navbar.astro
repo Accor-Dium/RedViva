@@ -1,27 +1,47 @@
 ---
+import { Image } from "astro:assets";
+import logoInstituto from "../assets/logo_instituto.png";
+
 const navLinks = [
-    { label: "Conócete", href: "/landing/conocete" },
-    { label: "Contacto", href: "/landing/contacto" },
-    { label: "Directorio", href: "/landing/directorio" }
+  { label: "Red Viva", href: "/landing/conocete" },
+  { label: "Conoce tus Derechos", href: "/landing/directorio" },
+  { label: "Contacto", href: "/landing/contacto" },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <nav class="sticky top-0 z-50 bg-transparent">
-    <div class="max-w-6xl mx-auto px-8 py-4 flex justify-center relative">
-        <div class=" w-64 h-48 bg-white absolute -top-10 left-0 rotate-3">
-            
-        </div>
-        <ul class="flex gap-8 list-none m-0 p-0">
-            {navLinks.map(link => (
-                <li>
-                    <a 
-                        href={link.href} 
-                        class="text-white text-opacity-50 font-medium transition-all duration-300 border-b-2 border-transparent hover:text-opacity-100 hover:border-white"
-                    >
-                        {link.label}
-                    </a>
-                </li>
-            ))}
-        </ul>
+  <div class="max-w-6xl mx-auto px-8 py-4 flex flex-col md:flex-row justify-center items-center relative gap-8 ">
+    <div class="w-48 h-32 lg:w-64 lg:h-40 bg-white  rotate-3 absolute -top-10 md:left-0">
+      <Image
+        src={logoInstituto}
+        alt="Logo Instituto"
+        class="absolute -top-5 lg:-top-10 left-0 -rotate-3"
+        width={256}
+        height={256}
+      />
     </div>
+    <ul class="flex gap-8 lg:gap-20 list-none m-0 p-0 mt-24 md:mt-0">
+      {
+        navLinks.map((link) => {
+          const isActive = currentPath === link.href;
+          return (
+            <li>
+              <a
+                href={link.href}
+                class={`font-medium transition-all  hover:text-white  duration-300 border-b-2 border-transparent text-sm md:text-base ${
+                  isActive 
+                    ? 'text-white border-white' 
+                    : 'text-white/70 text-opacity-50 hover:text-opacity-100 hover:border-white'
+                }`}
+              >
+                {link.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
 </nav>

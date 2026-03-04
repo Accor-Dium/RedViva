@@ -15,7 +15,7 @@ export const GRADIENT_COLORS = {
     to: "#714791",
   },
   contacto: {
-    from: "#FA5C5C",
+    from: "#890324",
     to: "#FA5C5C",
   },
 };

@@ -65,7 +65,7 @@ const waveColor = hexToNumber(from);
       
       vantaInstance = VANTA.WAVES({
         el: element,
-        mouseControls: true,
+        mouseControls: false,
         touchControls: true,
         gyroControls: false,
         minHeight: 200.00,
@@ -73,7 +73,8 @@ const waveColor = hexToNumber(from);
         scale: 1.00,
         scaleMobile: 1.00,
         color: waveColor,
-        shininess: 1.00
+        shininess: 1.00,
+        waveSpeed: 0.20
       });
     }
   }
