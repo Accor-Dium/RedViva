@@ -1,0 +1,94 @@
+---
+---
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 24px;  flex-direction: column;">
+  <span style="font-family: 'Orbitron', sans-serif;">Si estamos trabajando esto... Aunque no lo parezca</span>
+  <img
+    src="/image2.png"
+    alt="Mapache"
+    style="width: 400px; height: auto;"
+  />
+  
+  <div id="countdown">
+    <div>
+      <span id="days">00</span><span class="label">d</span> : 
+      <span id="hours">00</span><span class="label">h</span> : 
+      <span id="minutes">00</span><span class="label">m</span> : 
+      <span id="seconds">00</span><span class="label">s</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #countdown {
+    width: 800px;
+    background-color: #1a1a1a; /* Un negro ligeramente grisáceo */
+    padding: 20px 40px;
+    border: 4px solid #333; /* Marco del reloj */
+    border-radius: 15px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 10px #000; /* Efecto de profundidad */
+  }
+
+  #countdown div {
+    /* Fuente digital: Orbitron es similar a Casio */
+    font-family: 'Orbitron', sans-serif; 
+    color: #ff0000; /* Rojo brillante estilo LED */
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Efecto neón/brillo */
+    letter-spacing: 2px;
+    font-size: 64px;
+    font-weight: bold;
+  }
+
+  .label {
+    font-size: 20px;
+    vertical-align: middle;
+    color: #800000; /* Color más oscuro para las letras */
+  }
+</style>
+
+<script>
+  function updateCountdown() {
+    // Fecha límite: Lunes 9 de marzo de 2026 a las 9:00 AM
+    const targetDate = new Date('2026-03-09T09:00:00').getTime();
+    
+    const timer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      if (distance < 0) {
+        clearInterval(timer);
+        const countdownElement = document.getElementById('countdown');
+        if (countdownElement) {
+          countdownElement.innerHTML = '<div style="color: #ff0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);">¡Se acabó el tiempo!</div>';
+        }
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      const daysElement = document.getElementById('days');
+      const hoursElement = document.getElementById('hours');
+      const minutesElement = document.getElementById('minutes');
+      const secondsElement = document.getElementById('seconds');
+      
+      if (daysElement) daysElement.textContent = String(days).padStart(2, '0');
+      if (hoursElement) hoursElement.textContent = String(hours).padStart(2, '0');
+      if (minutesElement) minutesElement.textContent = String(minutes).padStart(2, '0');
+      if (secondsElement) secondsElement.textContent = String(seconds).padStart(2, '0');
+    }, 1000);
+  }
+  
+  updateCountdown();
+</script>
+
+
+
