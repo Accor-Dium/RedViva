@@ -1,6 +1,7 @@
 ---
 // Aquí va el java script
 import Layout from "../layouts/Layout.astro"
+import Title from "../../components/Title.astro"
 import { GRADIENT_COLORS } from "../../constants/components/layout"
 
 const styles = {
@@ -10,6 +11,6 @@ const styles = {
 
 <Layout gradientFrom={GRADIENT_COLORS.conocete.from} gradientTo={GRADIENT_COLORS.conocete.to}>
     <main class={styles.main}>
-        Conocete
+        <Title name="RED VIVA" />
     </main>
 </Layout>
