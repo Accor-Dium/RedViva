@@ -24,6 +24,5 @@ pnpm-debug.log*
 .idea/
 .vercel
 
-/src/generated/prisma
 /prisma/migrations
 package-lock.json
