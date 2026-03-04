@@ -1,16 +1,33 @@
 ---
-// Aquí va el java script
 import Layout from "../layouts/Layout.astro"
 import Title from "../../components/Title.astro"
+import { TiltCard } from "../../components/general/TiltCard";
 import { GRADIENT_COLORS } from "../../constants/components/layout"
 
 const styles = {
-    main: "min-w-screen"
+  main: "min-h-screen w-full flex items-center justify-center px-6 py-16",
+  cardWrapper: "w-full max-w-md",
+  card: "rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-8 shadow-2xl transition-transform duration-300",
+  badge: "inline-block mb-4 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-wide text-white",
+  title: "text-3xl font-bold text-white",
+  text: "mt-3 text-white/80 leading-relaxed"
 }
 ---
 
 <Layout gradientFrom={GRADIENT_COLORS.conocete.from} gradientTo={GRADIENT_COLORS.conocete.to}>
-    <main class={styles.main}>
-        <Title name="RED VIVA" />
-    </main>
+  <main class={styles.main}>
+    <Title name="RED VIVA" />
+    <div class={styles.cardWrapper}>
+      <TiltCard client:load>
+        <div class={styles.card}>
+          <span class={styles.badge}>Hola</span>
+          <h1 class={styles.title}>Hola Omar Usame plox</h1>
+          <p class={styles.text}>
+            Mueve el cursor sobre la tarjeta para ver el efecto tilt.
+            Ponme los estilos que quieras conchudo y crea un componente de astro usandome.
+          </p>
+        </div>
+      </TiltCard>
+    </div>
+  </main>
 </Layout>
