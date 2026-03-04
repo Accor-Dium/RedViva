@@ -8,16 +8,16 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="sticky top-0 z-50 bg-transparent">
-  <div class="max-w-6xl mx-auto px-8 py-4 flex flex-col md:flex-row justify-center items-center relative gap-8 ">
-    <div class="w-48 h-32 lg:w-64 lg:h-40 bg-white  rotate-3 absolute -top-10 md:left-0">
+<nav class="sticky top-0 z-50 bg-transparent left-0 right-0">
+  <div class="max-w-6xl mx-auto px-8 py-4 flex flex-col md:flex-row justify-center items-center relative gap-8 w-full">
+    <div class="w-48 h-32 lg:w-64 lg:h-40 bg-white rotate-3 absolute -top-10 md:left-10">
       <img
         src="/logos/logo_instituto.png"
         alt="Logo Instituto"
         class="absolute -top-5 lg:-top-10 left-0 -rotate-3"
       />
     </div>
-    <ul class="flex gap-8 lg:gap-20 list-none m-0 p-0 mt-24 md:mt-0">
+    <ul class="flex gap-0 sm:gap-8 lg:gap-20 list-none m-0 p-0 mt-24 md:mt-0 w-full justify-center">
       {
         navLinks.map((link) => {
           const isActive = currentPath === link.href;
@@ -25,10 +25,10 @@ const currentPath = Astro.url.pathname;
             <li>
               <a
                 href={link.href}
-                class={`font-medium transition-all  hover:text-white  duration-300 border-b-2 border-transparent text-sm md:text-base ${
-                  isActive 
-                    ? 'text-white border-white' 
-                    : 'text-white/70 text-opacity-50 hover:text-opacity-100 hover:border-white'
+                class={`font-medium transition-all hover:text-white duration-300 border-b-2 border-transparent text-sm md:text-base py-2 px-3 md:py-1 md:px-2 ${
+                  isActive
+                    ? 'text-white border-white'
+                    : 'text-white/70 hover:text-white hover:border-white'
                 }`}
               >
                 {link.label}

@@ -1,35 +1,39 @@
 ---
-import '../../styles/global.css';
-import Background from '../../components/Background.astro';
-import Navbar from '../../components/Navbar.astro';
-import { ClientRouter } from 'astro:transitions';
+import "../../styles/global.css";
+import Background from "../../components/Background.astro";
+import Navbar from "../../components/Navbar.astro";
+import { ClientRouter } from "astro:transitions";
+import LogosSection from "../../components/LogosSection.astro";
 
 interface Props {
-    gradientFrom?: string;
-    gradientTo?: string;
+  gradientFrom?: string;
+  gradientTo?: string;
 }
 
 const { gradientFrom, gradientTo } = Astro.props as Props;
 ---
 
 <html lang="es">
-    <head>
-        <ClientRouter />
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width"/>
-        <link rel="icon" type="image/svg+xml" href="/logos/buttlefly.ico"/>
-        <title></title>
-        <style>
-            body {
-                margin: 0;
-                overflow-x: hidden;
-                position: relative;
-            }
-        </style>
-    </head>
-    <body>
-        <Navbar />
-        <Background gradientFrom={gradientFrom} gradientTo={gradientTo} />
-        <slot/>
-    </body>
+  <head>
+    <ClientRouter />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title></title>
+    <style>
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <LogosSection />
+    <Navbar />
+    <Background gradientFrom={gradientFrom} gradientTo={gradientTo} />
+    <div class="max-w-6xl mx-auto px-8 relative z-10 md:mt-14 lg:mt-22 w-full">
+      <slot />
+    </div>
+  </body>
 </html>

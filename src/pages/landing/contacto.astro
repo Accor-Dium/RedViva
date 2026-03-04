@@ -2,6 +2,7 @@
 // Aquí va el java script
 import Layout from "../layouts/Layout.astro"
 import { GRADIENT_COLORS } from "../../constants/components/layout"
+import Title from "../../components/Title.astro"
 
 const styles = {
     main: "min-w-screen"
@@ -10,6 +11,6 @@ const styles = {
 
 <Layout gradientFrom={GRADIENT_COLORS.contacto.from} gradientTo={GRADIENT_COLORS.contacto.to}>
     <main class={styles.main}>
-        Contactano
+        <Title name="CONTACTO" />
     </main>
 </Layout>
