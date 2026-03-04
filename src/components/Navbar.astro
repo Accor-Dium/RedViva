@@ -1,7 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import logoInstituto from "../assets/logo_instituto.png";
-
 const navLinks = [
   { label: "Red Viva", href: "/landing/conocete" },
   { label: "Conoce tus Derechos", href: "/landing/directorio" },
@@ -14,12 +11,10 @@ const currentPath = Astro.url.pathname;
 <nav class="sticky top-0 z-50 bg-transparent">
   <div class="max-w-6xl mx-auto px-8 py-4 flex flex-col md:flex-row justify-center items-center relative gap-8 ">
     <div class="w-48 h-32 lg:w-64 lg:h-40 bg-white  rotate-3 absolute -top-10 md:left-0">
-      <Image
-        src={logoInstituto}
+      <img
+        src="/logos/logo_instituto.png"
         alt="Logo Instituto"
         class="absolute -top-5 lg:-top-10 left-0 -rotate-3"
-        width={256}
-        height={256}
       />
     </div>
     <ul class="flex gap-8 lg:gap-20 list-none m-0 p-0 mt-24 md:mt-0">
