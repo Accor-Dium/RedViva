@@ -13,10 +13,43 @@ datasource db {
   provider = "postgresql"
 }
 
-model ModeloEjemplo {
-  id          Int @id @default(autoincrement())
-  correo      String @unique
-  descripcion String
+model usuarios {
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  password       String
   fecha_creacion DateTime @default(now())
-  fecha_actualizacion DateTime @updatedAt
+}
+
+model tarj_informativas {
+  id             Int      @id @default(autoincrement())
+  descripcion    String
+  imagen         String?
+  enlace         String
+  contador       Int      @default(0)
+  fecha_creacion DateTime @default(now())
+}
+
+model localidad {
+  id             Int              @id @default(autoincrement())
+  nombre         String
+  fecha_creacion DateTime         @default(now())
+  instEducativas inst_educativa[]
+}
+
+model inst_educativa {
+  id             Int        @id @default(autoincrement())
+  nombre         String
+  grado          String
+  localidadId    Int
+  localidad      localidad  @relation(fields: [localidadId], references: [id])
+  fecha_creacion DateTime   @default(now())
+  denuncias      denuncia[]
+}
+
+model denuncia {
+  id             Int            @id @default(autoincrement())
+  escuelaId      Int
+  escuela        inst_educativa @relation(fields: [escuelaId], references: [id])
+  descripcion    String
+  fecha_creacion DateTime       @default(now())
 }
