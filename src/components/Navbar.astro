@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import NavbarScroll from "./general/NavbarScroll";
+
 const navLinks = [
   { label: "Red Viva", href: "/landing/conocete" },
   { label: "Conoce tus Derechos", href: "/landing/directorio" },
@@ -8,16 +11,21 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="sticky top-0 z-50 bg-transparent left-0 right-0">
+<nav class="sticky top-0 z-30 left-0 right-0 bg-transparent transition-all duration-300" id="navbar">
+  <NavbarScroll client:load />
   <div class="max-w-6xl mx-auto px-8 py-4 flex flex-col md:flex-row justify-center items-center relative gap-8 w-full">
-    <div class="w-48 h-32 lg:w-64 lg:h-40 bg-white rotate-3 absolute -top-10 md:left-10">
-      <img
+    <div class="w-48 h-32 z-40 lg:w-64 lg:h-40 bg-white rotate-3 absolute -top-10 md:left-10">
+      <Image
         src="/logos/logo_instituto.png"
         alt="Logo Instituto"
+        width={256}
+        height={160}
+        loading="eager"
+        fetchpriority="high"
         class="absolute -top-5 lg:-top-10 left-0 -rotate-3"
       />
     </div>
-    <ul class="flex gap-0 sm:gap-8 lg:gap-20 list-none m-0 p-0 mt-24 md:mt-0 w-full justify-center">
+    <ul class="flex z-50 gap-0 sm:gap-8 lg:gap-20 list-none m-0 p-0 mt-20 md:mt-0 w-full justify-center">
       {
         navLinks.map((link) => {
           const isActive = currentPath === link.href;
