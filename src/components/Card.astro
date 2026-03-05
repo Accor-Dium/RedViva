@@ -1,0 +1,55 @@
+---
+import { RESIZE_CARD_CONSTANTS } from "../constants/components/layout";
+import { TiltCard } from "./general/TiltCard";
+
+interface Props {
+  src: string;
+  alt?: string;
+  ratio?: "1:1" | "3:4" | "4:3";
+  width?: string;
+  href?: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt = RESIZE_CARD_CONSTANTS.DEFAULT_ALT_TEXT,
+  ratio = RESIZE_CARD_CONSTANTS.DEFAULT_RATIO,
+  width = RESIZE_CARD_CONSTANTS.DEFAULT_WIDTH,
+  href,
+  class: className = "",
+} = Astro.props as Props;
+
+const RATIO_MAP = {
+  "1:1": "aspect-square",
+  "3:4": "aspect-[3/4]",
+  "4:3": "aspect-[4/3]",
+};
+
+const containerWidth = width === "100%" ? "w-full" : "";
+const ratioClass = RATIO_MAP[ratio] || RATIO_MAP["1:1"];
+---
+
+<TiltCard
+  client:load
+  className={`${containerWidth} m-3 p-1 md:p-3  bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden leading-none break-inside-avoid shadow-lg border border-white/20 transition-shadow ${className}`}
+>
+    <img
+      src={src}
+      alt={alt}
+      class={`w-full h-auto ${ratioClass} object-cover block rounded-xl`}
+    />
+    {
+      href && (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block px-4 pt-2 text-center text-white font-semibold transition-colors"
+        >
+          {RESIZE_CARD_CONSTANTS.BUTTON_TEXT}
+        </a>
+      )
+    }
+  </div>
+</TiltCard>

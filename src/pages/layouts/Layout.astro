@@ -4,6 +4,7 @@ import Background from "../../components/Background.astro";
 import Navbar from "../../components/Navbar.astro";
 import { ClientRouter } from "astro:transitions";
 import LogosSection from "../../components/LogosSection.astro";
+import Footer from "../../components/layout/Footer.astro";
 
 interface Props {
   gradientFrom?: string;
@@ -32,8 +33,9 @@ const { gradientFrom, gradientTo } = Astro.props as Props;
     <LogosSection />
     <Navbar />
     <Background gradientFrom={gradientFrom} gradientTo={gradientTo} />
-    <div class="max-w-6xl mx-auto px-8 relative z-10 md:mt-14 lg:mt-22 w-full">
+    <div class="max-w-7xl mx-auto px-4 relative z-10 md:mt-14 lg:mt-22 w-full min-h-screen">
       <slot />
     </div>
+    <Footer />
   </body>
 </html>
