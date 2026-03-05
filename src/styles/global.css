@@ -11,3 +11,38 @@
 @theme {
     --font-itcgothic: "ITCGothic", sans-serif;
 }
+
+@keyframes row-in {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes row-out {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+}
+
+::view-transition-new(row-*) {
+    animation: row-in 0.3s ease-out;
+}
+
+::view-transition-old(row-*) {
+    animation: row-out 0.3s ease-out;
+}
+
+::view-transition-group(row-*) {
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+}
