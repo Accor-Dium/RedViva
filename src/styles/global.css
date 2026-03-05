@@ -11,3 +11,8 @@
 @theme {
     --font-itcgothic: "ITCGothic", sans-serif;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(46, 46, 46, 0.6) rgba(0, 0, 0, 0.1);
+}

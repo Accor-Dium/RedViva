@@ -1,33 +1,82 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import Title from "../../components/Title.astro"
-import { TiltCard } from "../../components/general/TiltCard";
 import { GRADIENT_COLORS } from "../../constants/components/layout"
+import { TITLE, TITLE2, TITLE3, TITLE4, TITLE5, TEXTO1, TEXTO2, TEXTO3, TEXTO4, IMAGE1, IMAGE2, OBJETIVOS } from "../../constants/pages/conocete"
+import { Image } from "astro:assets"
 
 const styles = {
-  main: "min-h-screen w-full flex items-center justify-center px-6 py-16",
-  cardWrapper: "w-full max-w-md",
-  card: "rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-8 shadow-2xl transition-transform duration-300",
-  badge: "inline-block mb-4 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-wide text-white",
-  title: "text-3xl font-bold text-white",
-  text: "mt-3 text-white/80 leading-relaxed"
+  main: "min-h-screen w-full flex flex-col gap-6 justify-start px-6 py-16 pt-32 md:pt-24 text-white",
+  article: "grid grid-cols-4 gap-6 md:gap-8",
+  textSection: "col-span-2 flex items-center justify-center py-4",
+  imageContainer: "col-span-2 flex items-center justify-center",
+  fullWidthSection: "col-span-4 flex flex-col gap-3 py-4",
+  sideImageContainer: "flex items-start justify-center py-4",
+  contentSection: "col-span-3 flex flex-col gap-4 py-4",
+  halfSection: "col-span-2 row-span-2 row-start-9 flex flex-col",
+  halfSectionRight: "col-span-2 row-span-2 col-start-3 row-start-9",
+  image: "w-full h-full object-contain rounded-lg",
+  imageAuto: "w-full h-auto object-contain rounded-lg",
+  list: "list-disc list-inside space-y-2",
+  listItem: "text-white",
 }
 ---
 
 <Layout gradientFrom={GRADIENT_COLORS.conocete.from} gradientTo={GRADIENT_COLORS.conocete.to}>
   <main class={styles.main}>
-    <Title name="RED VIVA" />
-    <div class={styles.cardWrapper}>
-      <TiltCard client:load>
-        <div class={styles.card}>
-          <span class={styles.badge}>Hola</span>
-          <h1 class={styles.title}>Hola Omar Usame plox</h1>
-          <p class={styles.text}>
-            Mueve el cursor sobre la tarjeta para ver el efecto tilt.
-            Ponme los estilos que quieras conchudo y crea un componente de astro usandome.
-          </p>
-        </div>
-      </TiltCard>
-    </div>
+    <Title name={TITLE}/>
+    <article class={styles.article}>
+      <div class={styles.textSection}>
+        <p>
+          {TEXTO1}
+        </p>
+      </div>
+      <div class={styles.imageContainer}>
+        <Image
+          src={IMAGE1}
+          alt="RedViva1"
+          width={2048}
+          height={1365}
+          loading="eager"
+          class={styles.image}
+        />
+      </div>
+      <div class={styles.fullWidthSection}>
+        <Title name={TITLE2} size="sm"/>
+        <p>
+          {TEXTO2}
+        </p>
+      </div>
+      <div class={styles.sideImageContainer}>
+        <Image 
+          src={IMAGE2}
+          alt="RedViva2"
+          width={408}
+          height={612}
+          loading="lazy"
+          class={styles.imageAuto}
+        />
+      </div>
+      <div class={styles.contentSection}>
+        <Title name={TITLE3} size="sm"/>
+        <ul class={styles.list}>
+          {Object.entries(OBJETIVOS).map(([key, objetivo]) => (
+            <li class={styles.listItem}>{objetivo}</li>
+          ))}
+        </ul>
+      </div>
+      <div class={styles.halfSection}>
+        <Title name={TITLE4} size="sm"/>
+        <p>
+          {TEXTO3}
+        </p>
+      </div>
+      <div class={styles.halfSectionRight}>
+        <Title name={TITLE5} size="sm"/>
+        <p>
+          {TEXTO4}
+        </p>
+      </div>
+    </article>
   </main>
 </Layout>
