@@ -50,6 +50,7 @@ model denuncia {
   id             Int            @id @default(autoincrement())
   escuelaId      Int
   escuela        inst_educativa @relation(fields: [escuelaId], references: [id])
+  turno          String
   descripcion    String
   fecha_creacion DateTime       @default(now())
 }
