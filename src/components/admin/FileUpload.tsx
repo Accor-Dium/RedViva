@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { TEXTS } from '../../constants/components/FileUpload';
 
 interface ImageStructure {
     file?: File;
@@ -73,7 +74,6 @@ export default function FileUpload({ images, setImages }: FileUploadProps) {
         accept: {
             'image/png': ['.png'],
             'image/jpeg': ['.jpeg', '.jpg'],
-            'image/bmp': ['.bmp'],
             'image/webp': ['.webp']
         },
         disabled: images.length >= 1
@@ -104,21 +104,17 @@ export default function FileUpload({ images, setImages }: FileUploadProps) {
         <div className={styles.container}>
 
             {images.length === 0 && (
-                <div
-                    {...getRootProps()}
-                    onClick={open}
-                    className={`${styles.dropZone.base} ${isDragActive ? styles.dropZone.active : styles.dropZone.idle}`}
-                >
+                <div {...getRootProps()} onClick={open} className={`${styles.dropZone.base} ${isDragActive ? styles.dropZone.active : styles.dropZone.idle}`}>
                     <input {...getInputProps()} />
                     {isDragActive ? (
-                        <p className={styles.dropZoneText.drag}>Suelta los archivos aquí...</p>
+                        <p className={styles.dropZoneText.drag}>{TEXTS.DROP}</p>
                     ) : (
                         <div className={styles.dropZoneInner}>
                             <svg xmlns="http://www.w3.org/2000/svg" className={styles.dropZoneIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <p className={styles.dropZoneText.hint}>Arrastra y suelta una imagen aquí, o haz clic para seleccionar</p>
-                            <p className={styles.dropZoneText.formats}>PNG, JPG, BMP, WEBP</p>
+                            <p className={styles.dropZoneText.hint}>{TEXTS.DROPZONE}</p>
+                            <p className={styles.dropZoneText.formats}>{TEXTS.FORMATS}</p>
                         </div>
                     )}
                 </div>
@@ -126,22 +122,17 @@ export default function FileUpload({ images, setImages }: FileUploadProps) {
 
             {images.length > 0 && (
                 <div className={styles.preview.wrapper}>
-                    <img
-                        src={images[0].preview ?? ""}
-                        alt="Preview"
-                        className={styles.preview.image}
-                    />
-                    <button
-                        type="button"
-                        onClick={(e) => {
+                    <img src={images[0].preview ?? ""} alt="Preview" className={styles.preview.image}/>
+                    <button type="button" onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             removeImage(0);
                         }}
                         className={styles.preview.removeBtn}
                         title="Eliminar imagen"
+                        aria-label="Eliminar imagen"
                     >
-                        ✕
+                        {TEXTS.CLOSE}
                     </button>
                 </div>
             )}
