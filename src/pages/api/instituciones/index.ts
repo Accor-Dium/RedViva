@@ -1,4 +1,4 @@
-//PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/instituciones-educativas/
+//PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/instituciones/
 
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";
