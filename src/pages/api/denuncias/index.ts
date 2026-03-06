@@ -1,4 +1,4 @@
-// PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/denuncias/METODO
+// PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/denuncias/
 
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";

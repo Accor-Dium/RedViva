@@ -1,4 +1,4 @@
-//PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/localidades/METODO
+//PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/localidades/
 
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";
