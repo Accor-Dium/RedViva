@@ -1,10 +1,10 @@
-// PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/instituciones-educativas/METODO
+// PARA ACCEDER A ESTOS ENDPOINTS -> http://localhost:4321/api/denuncias/METODO
 
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";
 import { successResponse, errorResponse } from "../../../lib/api/helpers";
 
-/** POST /api/denuncias — Crear una nueva denuncia */
+// crear denuncia
 export async function POST({ request }: APIContext): Promise<Response> {
     try {
         const body = await request.json();
