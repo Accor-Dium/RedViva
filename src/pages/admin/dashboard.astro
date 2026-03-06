@@ -1,14 +1,26 @@
 ---
-// Aquí va el java script
-import Layout from "../layouts/Layout.astro"
+import AdminLayout from "../layouts/AdminLayout.astro";
+import Title from "../../components/Title.astro";
 
 const styles = {
-    main: "min-w-screen"
-}
+  main: "min-h-screen w-full flex flex-col items-center",
+  content: "w-full max-w-4xl mt-8",
+  card: "rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-8 shadow-2xl",
+  cardTitle: "text-2xl font-bold text-black",
+  cardText: "mt-3 text-black leading-relaxed",
+};
 ---
 
-<Layout>
-    <main class={styles.main}>
-        Dashboard
-    </main>
-</Layout>
+<AdminLayout title="Dashboard - Admin">
+  <div class={styles.main}>
+    <Title name="DASHBOARD" color="text-black" />
+    <div class={styles.content}>
+      <div class={styles.card}>
+        <h2 class={styles.cardTitle}>Bienvenido al panel de administración</h2>
+        <p class={styles.cardText}>
+          Usa el menú lateral para navegar entre las secciones.
+        </p>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
