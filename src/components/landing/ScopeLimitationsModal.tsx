@@ -1,11 +1,31 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { animate } from "motion/mini";
+import {
+  SCOPE_MODAL_TITLE,
+  SCOPE_MODAL_PARAGRAPH_1,
+  SCOPE_MODAL_PARAGRAPH_2,
+  SCOPE_MODAL_PARAGRAPH_3,
+  SCOPE_MODAL_BUTTON_TEXT,
+} from "../../constants/pages/contacto";
 
 interface ScopeLimitationsModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const styles = {
+  overlay:
+    "fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-lg",
+  content:
+    "w-full max-w-2xl rotate-3 bg-white p-10 shadow-2xl md:px-26 md:py-20",
+  title: "text-3xl font-bold text-black text-center pb-4",
+  paragraph:
+    "mt-3 text-sm leading-tight text-gray-700 md:text-base text-justify",
+  actions: "mt-6 flex justify-center",
+  button:
+    "rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 text-white text-sm px-7 py-3",
+};
 
 export function ScopeLimitationsModal({ isOpen, onClose }: ScopeLimitationsModalProps) {
   const [isClosing, setIsClosing] = useState(false);
@@ -66,37 +86,31 @@ export function ScopeLimitationsModal({ isOpen, onClose }: ScopeLimitationsModal
   const modalContent = (
     <div
       id="scope-limitations-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-lg"
+      className={styles.overlay}
       role="dialog"
       aria-modal="true"
       aria-labelledby="scope-limitations-title"
     >
-      <div className="w-full max-w-2xl rotate-3 bg-white p-10 shadow-2xl md:px-26 md:py-20">
+      <div className={styles.content}>
         <div className="-rotate-3">
-          <h2 id="scope-limitations-title" className="text-3xl font-bold text-black text-center pb-4">
-            DECLARACIÓN DE ALCANCE Y LIMITACIONES
+          <h2 id="scope-limitations-title" className={styles.title}>
+            {SCOPE_MODAL_TITLE}
           </h2>
-          <p className="mt-3 text-sm leading-tight text-gray-700 md:text-base text-justify">
-            Este instituto recibe información de manera preventiva como parte de su
-            labor de orientación dentro del ámbito escolar.
+          <p className={styles.paragraph}>
+            {SCOPE_MODAL_PARAGRAPH_1}
           </p>
-          <p className="mt-3 text-sm leading-tight text-gray-700 md:text-base text-justify">
-            Este reporte no constituye una denuncia formal ni sustituye los
-            procedimientos legales correspondientes. En caso de requerirse una
-            acción legal o denuncia formal, deberá presentarse directamente ante la
-            autoridad competente.
+          <p className={styles.paragraph}>
+            {SCOPE_MODAL_PARAGRAPH_2}
           </p>
-          <p className="mt-3 text-sm leading-tight text-gray-700 md:text-base text-justify">
-            La institución actúa únicamente como canal de prevención y recepción de
-            información, sin determinar responsabilidades ni emitir juicios sobre
-            los hechos señalados.
+          <p className={styles.paragraph}>
+            {SCOPE_MODAL_PARAGRAPH_3}
           </p>
-          <div className="mt-6 flex justify-center">
+          <div className={styles.actions}>
             <button
               onClick={handleClose}
-              className="rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 text-white text-sm px-7 py-3"
+              className={styles.button}
             >
-              Entendido, continuar
+              {SCOPE_MODAL_BUTTON_TEXT}
             </button>
           </div>
         </div>

@@ -2,7 +2,33 @@ import { useState } from "react"
 import { animate } from "motion/mini"
 import { ContatoForm } from "./ContactoForm"
 import { ScopeLimitationsModal } from "./ScopeLimitationsModal"
-import { TITULO1, TITULO2, PARRAFO1, PARRAFO2, WHATSAPP_IMG, LINEA_WHATSAPP, BUTTON_TEXT } from "../../constants/pages/contacto"
+import {
+    TITULO1,
+    TITULO2,
+    PARRAFO1,
+    PARRAFO2,
+    WHATSAPP_IMG,
+    LINEA_WHATSAPP,
+    BUTTON_TEXT,
+    BACK_BUTTON_TEXT,
+    HERO_TITLE,
+    HERO_SUBTITLE,
+    HERO_TEXT
+} from "../../constants/pages/contacto"
+
+const styles = {
+    formContainer: "w-full flex flex-col gap-5 transition-container",
+    backButton: "self-start text-sm text-gray-600 hover:text-gray-900 mb-5 font-semibold transition-colors",
+    heroBlock: "flex flex-col items-center gap-0 mb-5",
+    heroTitle: "text-3xl font-semibold leading-none text-black text-center",
+    heroSubtitle: "text-4xl font-bold leading-none text-red-500 text-center",
+    heroText: "text-lg text-black text-center",
+    sectionContainer: "w-full flex flex-col items-center gap-5 transition-container",
+    title: "text-xl font-bold text-black",
+    paragraph: "text-center text-gray-700",
+    whatsappImg: "hover:opacity-80 transition-opacity cursor-pointer rounded-2xl shadow-2xl",
+    mainButton: "rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 text-white text-sm px-7 py-3"
+}
 
 export function ContactoSection() {
     const [showForm, setShowForm] = useState(false)
@@ -26,22 +52,22 @@ export function ContactoSection() {
                     isOpen={showModal} 
                     onClose={() => setShowModal(false)} 
                 />
-                <div className="w-full flex flex-col gap-5 transition-container">
+                <div className={styles.formContainer}>
                     <button
                         onClick={() => handleTransition(() => setShowForm(false))}
-                        className="self-start text-sm text-gray-600 hover:text-gray-900 mb-5 font-semibold transition-colors"
+                        className={styles.backButton}
                     >
-                        ← Volver
+                        {BACK_BUTTON_TEXT}
                     </button>
-                    <div className="flex flex-col items-center gap-0 mb-5">
-                        <h2 className="text-3xl font-semibold leading-none text-black text-center">
-                            Tienes derecho a estar a salvo.
+                    <div className={styles.heroBlock}>
+                        <h2 className={styles.heroTitle}>
+                            {HERO_TITLE}
                         </h2>
-                        <h1 className="text-4xl font-bold leading-none text-red-500 text-center">
-                            Reporta aquí.
+                        <h1 className={styles.heroSubtitle}>
+                            {HERO_SUBTITLE}
                         </h1>
-                        <p className="text-lg text-black text-center">
-                            Tu denuncia es confidencial
+                        <p className={styles.heroText}>
+                            {HERO_TEXT}
                         </p>
                     </div>
                     <ContatoForm />
@@ -51,11 +77,11 @@ export function ContactoSection() {
     }
 
     return (
-        <div className="w-full flex flex-col items-center gap-5 transition-container">
-            <h1 className="text-xl font-bold text-black">
+        <div className={styles.sectionContainer}>
+            <h1 className={styles.title}>
                 {TITULO1}
             </h1>
-            <p className="text-center text-gray-700">
+            <p className={styles.paragraph}>
                 {PARRAFO1}
             </p>
             <a href={LINEA_WHATSAPP} target="_blank" rel="noopener noreferrer">
@@ -64,13 +90,13 @@ export function ContactoSection() {
                     alt="Whatsapp"
                     width={336}
                     height={70}
-                    className="hover:opacity-80 transition-opacity cursor-pointer rounded-2xl shadow-2xl"
+                    className={styles.whatsappImg}
                 />
             </a>
-            <h1 className="text-xl font-bold text-black">
+            <h1 className={styles.title}>
                 {TITULO2}
             </h1>
-            <p className="text-center text-gray-700">
+            <p className={styles.paragraph}>
                 {PARRAFO2}
             </p>
             <button
@@ -78,7 +104,7 @@ export function ContactoSection() {
                     setShowForm(true)
                     setShowModal(true)
                 })}
-                className="rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 text-white text-sm px-7 py-3"
+                className={styles.mainButton}
             >
                 {BUTTON_TEXT}
             </button>
