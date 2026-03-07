@@ -75,7 +75,12 @@ const styles = {
       );
     };
 
-    const hasSeenNotice = localStorage.getItem(storageKey) === "true";
+    let hasSeenNotice = false;
+    try {
+      hasSeenNotice = localStorage.getItem(storageKey) === "true";
+    } catch {
+      // Treat as "not seen yet" if localStorage is unavailable
+    }
     if (!hasSeenNotice) {
       openModal();
     }
@@ -100,7 +105,11 @@ const styles = {
     };
 
     acceptButton.addEventListener("click", () => {
-      localStorage.setItem(storageKey, "true");
+      try {
+        localStorage.setItem(storageKey, "true");
+      } catch {
+        // Skip persistence if localStorage is unavailable
+      }
       void closeModal();
     });
   })();

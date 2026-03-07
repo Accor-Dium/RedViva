@@ -119,6 +119,7 @@ export type Inst_educativaScalarFieldEnum = (typeof Inst_educativaScalarFieldEnu
 export const DenunciaScalarFieldEnum = {
   id: 'id',
   escuelaId: 'escuelaId',
+  turno: 'turno',
   descripcion: 'descripcion',
   fecha_creacion: 'fecha_creacion'
 } as const
