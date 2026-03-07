@@ -3,9 +3,10 @@ interface Props {
     color?: "purple" | "pink" | "red" | "green" | "blue"
     size?: "sm" | "md" | "lg"
     href?: string
+    [key: string]: unknown
 }
 
-const { color = "purple", size = "md", href } = Astro.props
+const { color = "purple", size = "md", href, ...rest } = Astro.props
 
 const colors = {
     purple: "bg-purple-300 hover:bg-purple-400 text-purple-900",
@@ -25,6 +26,6 @@ const classes = `rounded-md font-semibold cursor-pointer transition-colors ${col
 ---
 
 {href
-    ? <a href={href} class={classes}><slot /></a>
-    : <button class={classes}><slot /></button>
+    ? <a href={href} class={classes} {...rest}><slot /></a>
+    : <button class={classes} {...rest}><slot /></button>
 }
