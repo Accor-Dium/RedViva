@@ -84,24 +84,17 @@ export async function GET({ url }: APIContext): Promise<Response> {
             prisma.denuncia.count({ where }),
         ]);
 
-        return new Response(
-            JSON.stringify({
-                success: true,
-                data: denuncias,
-                pagination: {
-                    page,
-                    limit,
-                    total,
-                    totalPages: Math.ceil(total / limit),
-                },
-                message: "Denuncias obtenidas correctamente",
-                timestamp: new Date().toISOString(),
-            }),
-            {
-                status: 200,
-                headers: { "Content-Type": "application/json" },
-            }
-        );
+        const paginatedData = {
+            items: denuncias,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
+        };
+
+        return successResponse(paginatedData, "Denuncias obtenidas correctamente");
     } catch (error) {
         return errorResponse("Error al obtener las denuncias");
     }
