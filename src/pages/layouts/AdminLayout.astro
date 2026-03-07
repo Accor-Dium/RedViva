@@ -1,7 +1,7 @@
 ---
 import "../../styles/global.css";
-import { ClientRouter } from "astro:transitions";
 import AdminSidebar from "../../components/admin/AdminSidebar.astro";
+import HeadMeta from "../layouts/HeadMeta.astro";
 import { ADMIN_COLORS } from "../../constants/components/admin.ts";
 
 interface Props {
@@ -23,12 +23,8 @@ const styles = {
 
 <html lang="es">
 <head>
-  <ClientRouter />
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  <link rel="icon" type="image/svg+xml" href="/logos/buttlefly.ico" />
-  <title>{title}</title>
-  <style>
+  <HeadMeta title={title} />
+  <style is:inline>
     body {
       margin: 0;
       overflow-x: hidden;
