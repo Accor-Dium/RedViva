@@ -26,3 +26,4 @@ pnpm-debug.log*
 
 /prisma/migrations
 package-lock.json
+/src/generated
