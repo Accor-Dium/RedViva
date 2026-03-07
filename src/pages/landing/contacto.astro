@@ -3,14 +3,44 @@
 import Layout from "../layouts/Layout.astro"
 import { GRADIENT_COLORS } from "../../constants/components/layout"
 import Title from "../../components/Title.astro"
+import Button from "../../components/general/Button.astro"
+import { TITULO1, TITULO2, PARRAFO1, PARRAFO2, BUTTON_TEXT, WHATSAPP_IMG, LINEA_WHATSAPP } from "../../constants/pages/contacto"
+import { Image } from "astro:assets"
 
 const styles = {
-    main: "min-w-screen"
+    main: "w-full flex items-center justify-center"
 }
 ---
 
 <Layout gradientFrom={GRADIENT_COLORS.contacto.from} gradientTo={GRADIENT_COLORS.contacto.to}>
     <main class={styles.main}>
-        <Title name="CONTACTO" />
+        <div class="bg-white shadow-lg mt-8 p-10 max-w-4xl w-full -rotate-3 flex flex-col items-center">
+            <div class="rotate-3 w-full flex flex-col items-center mt-5 mb-5 gap-5">
+                <h1>
+                    <Title name={TITULO1} size="sm" color="text-black"/>
+                </h1>
+                <p>
+                    {PARRAFO1}
+                </p>
+                <a href={LINEA_WHATSAPP} target="_blank" rel="noopener noreferrer">
+                    <Image 
+                        src={WHATSAPP_IMG}
+                        alt="Whatsapp"
+                        width={336}
+                        height={70}
+                        class="hover:opacity-80 transition-opacity cursor-pointer rounded-2xl shadow-2xl"
+                    />
+                </a>
+                <h1>
+                    <Title name={TITULO2} size="sm" color="text-black"/>
+                </h1>
+                <p>
+                    {PARRAFO2}
+                </p>
+                <Button color="red">
+                    {BUTTON_TEXT}
+                </Button>
+            </div>
+        </div>
     </main>
 </Layout>

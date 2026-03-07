@@ -12,37 +12,7 @@
     --font-itcgothic: "ITCGothic", sans-serif;
 }
 
-@keyframes row-in {
-    from {
-        transform: scale(0.9);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes row-out {
-    from {
-        transform: scale(1);
-        opacity: 1;
-    }
-    to {
-        transform: scale(0.9);
-        opacity: 0;
-    }
-}
-
-::view-transition-new(row-*) {
-    animation: row-in 0.3s ease-out;
-}
-
-::view-transition-old(row-*) {
-    animation: row-out 0.3s ease-out;
-}
-
-::view-transition-group(row-*) {
-    animation-duration: 0.3s;
-    animation-timing-function: ease-out;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(46, 46, 46, 0.6) rgba(0, 0, 0, 0.1);
 }

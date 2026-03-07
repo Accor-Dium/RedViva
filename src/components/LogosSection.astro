@@ -1,19 +1,28 @@
 ---
+import { Image } from 'astro:assets';
 ---
 
 <div class=" hidden lg:flex flex-col justify-center items-center gap-2 my-12 flex-wrap absolute -top-10 -right-5 -rotate-2">
   <div class="w-50 h-24 bg-white  flex justify-center items-center shadow-lg mr-4">
-    <img
+    <Image
       src="/logos/logo_instituto.png"
       alt="Logo Instituto"
+      width={224}
+      height={96}
+      loading="eager"
+      fetchpriority="high"
       class="w-56 h-auto"
     />
   </div>
   
   <div class="w-50 h-24 bg-white  flex justify-center items-center shadow-lg">
-    <img
+    <Image
       src="/logos/logo_ayuntamiento.png"
       alt="Logo Ayuntamiento"
+      width={160}
+      height={96}
+      loading="eager"
+      fetchpriority="high"
       class="w-40 h-auto"
     />
   </div>
