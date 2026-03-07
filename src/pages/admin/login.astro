@@ -1,14 +1,9 @@
 ---
-// Aquí va el java script
-import Layout from "../layouts/Layout.astro"
+import LoginLayput from "../layouts/loginlayput.astro";
 
-const styles = {
-    main: "min-w-screen"
-}
+import { LoginForm } from "../../components/admin/LoginForm";
 ---
 
-<Layout>
-    <main class={styles.main}>
-        Login
-    </main>
-</Layout>
+<LoginLayput title="Login - Red Viva">
+  <LoginForm client:load />
+</LoginLayput>
