@@ -39,6 +39,7 @@ export type DenunciaSumAggregateOutputType = {
 export type DenunciaMinAggregateOutputType = {
   id: number | null
   escuelaId: number | null
+  turno: string | null
   descripcion: string | null
   fecha_creacion: Date | null
 }
@@ -46,6 +47,7 @@ export type DenunciaMinAggregateOutputType = {
 export type DenunciaMaxAggregateOutputType = {
   id: number | null
   escuelaId: number | null
+  turno: string | null
   descripcion: string | null
   fecha_creacion: Date | null
 }
@@ -53,6 +55,7 @@ export type DenunciaMaxAggregateOutputType = {
 export type DenunciaCountAggregateOutputType = {
   id: number
   escuelaId: number
+  turno: number
   descripcion: number
   fecha_creacion: number
   _all: number
@@ -72,6 +75,7 @@ export type DenunciaSumAggregateInputType = {
 export type DenunciaMinAggregateInputType = {
   id?: true
   escuelaId?: true
+  turno?: true
   descripcion?: true
   fecha_creacion?: true
 }
@@ -79,6 +83,7 @@ export type DenunciaMinAggregateInputType = {
 export type DenunciaMaxAggregateInputType = {
   id?: true
   escuelaId?: true
+  turno?: true
   descripcion?: true
   fecha_creacion?: true
 }
@@ -86,6 +91,7 @@ export type DenunciaMaxAggregateInputType = {
 export type DenunciaCountAggregateInputType = {
   id?: true
   escuelaId?: true
+  turno?: true
   descripcion?: true
   fecha_creacion?: true
   _all?: true
@@ -180,6 +186,7 @@ export type denunciaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type DenunciaGroupByOutputType = {
   id: number
   escuelaId: number
+  turno: string
   descripcion: string
   fecha_creacion: Date
   _count: DenunciaCountAggregateOutputType | null
@@ -210,6 +217,7 @@ export type denunciaWhereInput = {
   NOT?: Prisma.denunciaWhereInput | Prisma.denunciaWhereInput[]
   id?: Prisma.IntFilter<"denuncia"> | number
   escuelaId?: Prisma.IntFilter<"denuncia"> | number
+  turno?: Prisma.StringFilter<"denuncia"> | string
   descripcion?: Prisma.StringFilter<"denuncia"> | string
   fecha_creacion?: Prisma.DateTimeFilter<"denuncia"> | Date | string
   escuela?: Prisma.XOR<Prisma.Inst_educativaScalarRelationFilter, Prisma.inst_educativaWhereInput>
@@ -218,6 +226,7 @@ export type denunciaWhereInput = {
 export type denunciaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   escuelaId?: Prisma.SortOrder
+  turno?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   fecha_creacion?: Prisma.SortOrder
   escuela?: Prisma.inst_educativaOrderByWithRelationInput
@@ -229,6 +238,7 @@ export type denunciaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.denunciaWhereInput[]
   NOT?: Prisma.denunciaWhereInput | Prisma.denunciaWhereInput[]
   escuelaId?: Prisma.IntFilter<"denuncia"> | number
+  turno?: Prisma.StringFilter<"denuncia"> | string
   descripcion?: Prisma.StringFilter<"denuncia"> | string
   fecha_creacion?: Prisma.DateTimeFilter<"denuncia"> | Date | string
   escuela?: Prisma.XOR<Prisma.Inst_educativaScalarRelationFilter, Prisma.inst_educativaWhereInput>
@@ -237,6 +247,7 @@ export type denunciaWhereUniqueInput = Prisma.AtLeast<{
 export type denunciaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   escuelaId?: Prisma.SortOrder
+  turno?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   fecha_creacion?: Prisma.SortOrder
   _count?: Prisma.denunciaCountOrderByAggregateInput
@@ -252,11 +263,13 @@ export type denunciaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.denunciaScalarWhereWithAggregatesInput | Prisma.denunciaScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"denuncia"> | number
   escuelaId?: Prisma.IntWithAggregatesFilter<"denuncia"> | number
+  turno?: Prisma.StringWithAggregatesFilter<"denuncia"> | string
   descripcion?: Prisma.StringWithAggregatesFilter<"denuncia"> | string
   fecha_creacion?: Prisma.DateTimeWithAggregatesFilter<"denuncia"> | Date | string
 }
 
 export type denunciaCreateInput = {
+  turno: string
   descripcion: string
   fecha_creacion?: Date | string
   escuela: Prisma.inst_educativaCreateNestedOneWithoutDenunciasInput
@@ -265,11 +278,13 @@ export type denunciaCreateInput = {
 export type denunciaUncheckedCreateInput = {
   id?: number
   escuelaId: number
+  turno: string
   descripcion: string
   fecha_creacion?: Date | string
 }
 
 export type denunciaUpdateInput = {
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   escuela?: Prisma.inst_educativaUpdateOneRequiredWithoutDenunciasNestedInput
@@ -278,6 +293,7 @@ export type denunciaUpdateInput = {
 export type denunciaUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   escuelaId?: Prisma.IntFieldUpdateOperationsInput | number
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -285,11 +301,13 @@ export type denunciaUncheckedUpdateInput = {
 export type denunciaCreateManyInput = {
   id?: number
   escuelaId: number
+  turno: string
   descripcion: string
   fecha_creacion?: Date | string
 }
 
 export type denunciaUpdateManyMutationInput = {
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,6 +315,7 @@ export type denunciaUpdateManyMutationInput = {
 export type denunciaUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   escuelaId?: Prisma.IntFieldUpdateOperationsInput | number
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -314,6 +333,7 @@ export type denunciaOrderByRelationAggregateInput = {
 export type denunciaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   escuelaId?: Prisma.SortOrder
+  turno?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   fecha_creacion?: Prisma.SortOrder
 }
@@ -326,6 +346,7 @@ export type denunciaAvgOrderByAggregateInput = {
 export type denunciaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   escuelaId?: Prisma.SortOrder
+  turno?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   fecha_creacion?: Prisma.SortOrder
 }
@@ -333,6 +354,7 @@ export type denunciaMaxOrderByAggregateInput = {
 export type denunciaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   escuelaId?: Prisma.SortOrder
+  turno?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   fecha_creacion?: Prisma.SortOrder
 }
@@ -385,12 +407,14 @@ export type denunciaUncheckedUpdateManyWithoutEscuelaNestedInput = {
 }
 
 export type denunciaCreateWithoutEscuelaInput = {
+  turno: string
   descripcion: string
   fecha_creacion?: Date | string
 }
 
 export type denunciaUncheckedCreateWithoutEscuelaInput = {
   id?: number
+  turno: string
   descripcion: string
   fecha_creacion?: Date | string
 }
@@ -427,29 +451,34 @@ export type denunciaScalarWhereInput = {
   NOT?: Prisma.denunciaScalarWhereInput | Prisma.denunciaScalarWhereInput[]
   id?: Prisma.IntFilter<"denuncia"> | number
   escuelaId?: Prisma.IntFilter<"denuncia"> | number
+  turno?: Prisma.StringFilter<"denuncia"> | string
   descripcion?: Prisma.StringFilter<"denuncia"> | string
   fecha_creacion?: Prisma.DateTimeFilter<"denuncia"> | Date | string
 }
 
 export type denunciaCreateManyEscuelaInput = {
   id?: number
+  turno: string
   descripcion: string
   fecha_creacion?: Date | string
 }
 
 export type denunciaUpdateWithoutEscuelaInput = {
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type denunciaUncheckedUpdateWithoutEscuelaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type denunciaUncheckedUpdateManyWithoutEscuelaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  turno?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_creacion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -459,6 +488,7 @@ export type denunciaUncheckedUpdateManyWithoutEscuelaInput = {
 export type denunciaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   escuelaId?: boolean
+  turno?: boolean
   descripcion?: boolean
   fecha_creacion?: boolean
   escuela?: boolean | Prisma.inst_educativaDefaultArgs<ExtArgs>
@@ -467,6 +497,7 @@ export type denunciaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type denunciaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   escuelaId?: boolean
+  turno?: boolean
   descripcion?: boolean
   fecha_creacion?: boolean
   escuela?: boolean | Prisma.inst_educativaDefaultArgs<ExtArgs>
@@ -475,6 +506,7 @@ export type denunciaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type denunciaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   escuelaId?: boolean
+  turno?: boolean
   descripcion?: boolean
   fecha_creacion?: boolean
   escuela?: boolean | Prisma.inst_educativaDefaultArgs<ExtArgs>
@@ -483,11 +515,12 @@ export type denunciaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type denunciaSelectScalar = {
   id?: boolean
   escuelaId?: boolean
+  turno?: boolean
   descripcion?: boolean
   fecha_creacion?: boolean
 }
 
-export type denunciaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "escuelaId" | "descripcion" | "fecha_creacion", ExtArgs["result"]["denuncia"]>
+export type denunciaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "escuelaId" | "turno" | "descripcion" | "fecha_creacion", ExtArgs["result"]["denuncia"]>
 export type denunciaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   escuela?: boolean | Prisma.inst_educativaDefaultArgs<ExtArgs>
 }
@@ -506,6 +539,7 @@ export type $denunciaPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     escuelaId: number
+    turno: string
     descripcion: string
     fecha_creacion: Date
   }, ExtArgs["result"]["denuncia"]>
@@ -934,6 +968,7 @@ export interface Prisma__denunciaClient<T, Null = never, ExtArgs extends runtime
 export interface denunciaFieldRefs {
   readonly id: Prisma.FieldRef<"denuncia", 'Int'>
   readonly escuelaId: Prisma.FieldRef<"denuncia", 'Int'>
+  readonly turno: Prisma.FieldRef<"denuncia", 'String'>
   readonly descripcion: Prisma.FieldRef<"denuncia", 'String'>
   readonly fecha_creacion: Prisma.FieldRef<"denuncia", 'DateTime'>
 }
