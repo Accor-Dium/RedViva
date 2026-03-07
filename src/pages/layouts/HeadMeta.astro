@@ -11,7 +11,7 @@ const {
     title,
     description = "Red Viva - #ConectarSinViolencia",
     enableTransitions = true,
-} = Astro.props;
+} = Astro.props as Props;
 ---
 
 {enableTransitions && <ClientRouter />}
