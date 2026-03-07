@@ -1,4 +1,4 @@
-export interface RowTableProps {
+interface RowTableProps {
   id: number;
   titulo?: string;
   descripcion?: string;

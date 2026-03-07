@@ -1,4 +1,4 @@
-export interface ModalProps {
+interface ModalProps {
   children: React.ReactNode | ((closeModal: () => void) => React.ReactNode);
   buttonText?: string;
   buttonClassName?: string;

@@ -1,4 +1,4 @@
-export interface ImageStructure {
+interface ImageStructure {
     file?: File;
     preview: string | null | undefined;
 }
