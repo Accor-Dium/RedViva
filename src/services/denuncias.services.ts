@@ -1,7 +1,6 @@
 import { apiFetch } from "./api";
 import type {
-    DenunciaRow,
-    DenunciasPaginatedResponse,
+    DenunciasPaginatedData,
     DenunciasFilters,
 } from "../constants/components/denuncias.ts";
 
@@ -24,18 +23,14 @@ function buildParams(page: number, limit: number, filters: DenunciasFilters): st
     return params.toString();
 }
 
-/**
- * Obtener denuncias paginadas con filtros.
- * Usa apiFetch para validar Content-Type, parseo y errores.
- */
 export async function getDenuncias(
     page: number,
     limit: number,
     filters: DenunciasFilters = {}
-): Promise<DenunciasPaginatedResponse> {
+): Promise<DenunciasPaginatedData> {
     const query = buildParams(page, limit, filters);
-    const data = await apiFetch<DenunciasPaginatedResponse>(`${BASE_URL}?${query}`);
-    return data as unknown as DenunciasPaginatedResponse;
+    const res = await apiFetch<DenunciasPaginatedData>(`${BASE_URL}?${query}`);
+    return res.data;
 }
 
 /**

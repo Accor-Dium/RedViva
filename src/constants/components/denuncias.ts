@@ -1,3 +1,5 @@
+import type { PaginationMeta } from "../../lib/api/types";
+
 /** Tipado de una denuncia como viene del API */
 export interface DenunciaRow {
     id: number;
@@ -14,18 +16,10 @@ export interface DenunciaRow {
     };
 }
 
-/** Respuesta paginada del endpoint GET /api/denuncias */
-export interface DenunciasPaginatedResponse {
-    success: boolean;
-    data: DenunciaRow[];
-    pagination: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPages: number;
-    };
-    message: string;
-    timestamp: string;
+/** Lo que viene dentro de data en el GET paginado */
+export interface DenunciasPaginatedData {
+    items: DenunciaRow[];
+    pagination: PaginationMeta;
 }
 
 /** Filtros disponibles */

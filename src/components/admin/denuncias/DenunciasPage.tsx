@@ -43,13 +43,15 @@ export default function DenunciasPage() {
         async (pageNum: number) => {
             setIsLoading(true);
             try {
-                const json = await getDenuncias(pageNum, DENUNCIAS_PAGE.ITEMS_PER_PAGE, filters);
+                const { items, pagination } = await getDenuncias(
+                    pageNum,
+                    DENUNCIAS_PAGE.ITEMS_PER_PAGE,
+                    filters
+                );
 
-                if (json.success) {
-                    setDenuncias(json.data);
-                    setTotalPages(json.pagination.totalPages);
-                    setPage(json.pagination.page);
-                }
+                setDenuncias(items);
+                setTotalPages(pagination.totalPages);
+                setPage(pagination.page);
             } catch (error) {
                 console.error("Error al cargar denuncias:", error);
             } finally {
