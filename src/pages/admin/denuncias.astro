@@ -1,26 +1,10 @@
 ---
 import AdminLayout from "../layouts/AdminLayout.astro";
-import Title from "../../components/Title.astro";
-
-const styles = {
-  main: "min-h-screen w-full flex flex-col items-center",
-  content: "w-full max-w-4xl mt-8",
-  card: "rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-8 shadow-2xl",
-  cardTitle: "text-2xl font-bold text-black",
-  cardText: "mt-3 text-black leading-relaxed",
-};
+import DenunciasPage from "../../components/admin/denuncias/DenunciasPage.tsx";
 ---
 
 <AdminLayout title="Denuncias - Admin">
-  <div class={styles.main}>
-    <Title name="DENUNCIAS" color="text-black"/>
-    <div class={styles.content}>
-      <div class={styles.card}>
-        <h2 class={styles.cardTitle}>Listado de denuncias</h2>
-        <p class={styles.cardText}>
-          Aquí se mostrarán las denuncias registradas.
-        </p>
-      </div>
-    </div>
+  <div class="min-h-screen w-full">
+    <DenunciasPage client:load />
   </div>
 </AdminLayout>
