@@ -1,17 +1,16 @@
-
 import { defineMiddleware } from "astro:middleware";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { url, cookies, redirect } = context;
 
-  const isAdminPage = url.pathname.startsWith("/admin");
+  const isPathAdmin = url.pathname.startsWith("/admin");
+  const isLoginPage = url.pathname === "/admin/login"; 
   const isLoggedIn = cookies.has("isLoggedIn");
 
-  if (isAdminPage && !isLoggedIn) {
-    return redirect("/login");
+  if (isPathAdmin && !isLoginPage && !isLoggedIn) {
+    return redirect("/admin/login");
   }
-
-  if (url.pathname === "/login" && isLoggedIn) {
+  if (isLoginPage && isLoggedIn) {
     return redirect("/admin/dashboard");
   }
 

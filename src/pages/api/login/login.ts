@@ -12,8 +12,6 @@ export async function POST({ request }: APIContext): Promise<Response> {
             return errorResponse("Usuario y contraseña obligatorios", 400);
         }
 
-        // CONVERTIMOS A MINÚSCULAS AQUÍ:
-        // .trim() quita espacios vacíos y .toLowerCase() ignora las mayúsculas
         const normalizedUsername = username.trim().toLowerCase();
 
         const usuario = await prisma.usuarios.findUnique({
