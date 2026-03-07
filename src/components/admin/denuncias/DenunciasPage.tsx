@@ -10,7 +10,6 @@ import type {
 } from "../../../constants/components/denuncias.ts";
 import { FileXls } from "@phosphor-icons/react";
 
-// Services
 import { getDenuncias, deleteDenuncia } from "../../../services/denuncias.services.ts";
 import { getEscuelas, getLocalidades } from "../../../services/catalogos.service.ts";
 

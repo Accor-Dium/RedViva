@@ -33,6 +33,7 @@ export interface DenunciasFilters {
     escuelaId?: number;
     localidadId?: number;
     fechaDesde?: string;
+    fechaHasta?: string;
 }
 
 /** Opción genérica para selects de filtros */

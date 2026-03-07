@@ -9,6 +9,19 @@ export interface ApiResponse<T = unknown> {
     timestamp: string;
 }
 
+export interface PaginationMeta {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+}
+
+export interface PaginatedData<T> {
+    items: T[];
+    pagination: PaginationMeta;
+}
+
+
 // Tipo para los handlers de Astro API routes
 export type ApiHandler = (context: APIContext) => Promise<Response>;
 

@@ -1,5 +1,9 @@
 import { apiFetch } from "./api";
-import type { DenunciaRow, DenunciasPaginatedResponse, DenunciasFilters } from "../constants/components/denuncias.ts";
+import type {
+    DenunciaRow,
+    DenunciasPaginatedResponse,
+    DenunciasFilters,
+} from "../constants/components/denuncias.ts";
 
 const BASE_URL = "/api/denuncias";
 
@@ -15,12 +19,14 @@ function buildParams(page: number, limit: number, filters: DenunciasFilters): st
     if (filters.escuelaId) params.set("escuelaId", String(filters.escuelaId));
     if (filters.localidadId) params.set("localidadId", String(filters.localidadId));
     if (filters.fechaDesde) params.set("fechaDesde", filters.fechaDesde);
+    if (filters.fechaHasta) params.set("fechaHasta", filters.fechaHasta);
 
     return params.toString();
 }
 
 /**
- * Obtener denuncias paginadas con filtros
+ * Obtener denuncias paginadas con filtros.
+ * Usa apiFetch para validar Content-Type, parseo y errores.
  */
 export async function getDenuncias(
     page: number,
@@ -28,9 +34,8 @@ export async function getDenuncias(
     filters: DenunciasFilters = {}
 ): Promise<DenunciasPaginatedResponse> {
     const query = buildParams(page, limit, filters);
-    const res = await fetch(`${BASE_URL}?${query}`);
-    const json: DenunciasPaginatedResponse = await res.json();
-    return json;
+    const data = await apiFetch<DenunciasPaginatedResponse>(`${BASE_URL}?${query}`);
+    return data as unknown as DenunciasPaginatedResponse;
 }
 
 /**
