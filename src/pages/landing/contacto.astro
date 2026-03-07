@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro"
 import { GRADIENT_COLORS } from "../../constants/components/layout"
 import Title from "../../components/Title.astro"
 import ContatoForm from "../../components/landing/ContatoForm.astro"
+import ScopeLimitationsModal from "../../components/landing/ScopeLimitationsModal.astro"
 import Button from "../../components/general/Button.astro"
 import { TITULO1, TITULO2, PARRAFO1, PARRAFO2, WHATSAPP_IMG, LINEA_WHATSAPP, BUTTON_TEXT } from "../../constants/pages/contacto"
 import { Image } from "astro:assets"
@@ -14,6 +15,8 @@ const styles = {
 ---
 
 <Layout gradientFrom={GRADIENT_COLORS.contacto.from} gradientTo={GRADIENT_COLORS.contacto.to}>
+    <ScopeLimitationsModal />
+
     <main class={styles.main}>
         <div class="bg-white shadow-lg mt-8 p-10 max-w-4xl w-full -rotate-3 flex flex-col items-center">
             <div class="rotate-3 w-full flex flex-col items-center mt-5 mb-5 gap-5">
@@ -45,4 +48,5 @@ const styles = {
             </div>
         </div>
     </main>
+
 </Layout>

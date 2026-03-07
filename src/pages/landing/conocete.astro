@@ -7,14 +7,14 @@ import { Image } from "astro:assets"
 
 const styles = {
   main: "min-h-screen w-full flex flex-col gap-6 justify-start px-6 py-16 pt-32 md:pt-24 text-white",
-  article: "grid grid-cols-4 gap-6 md:gap-8",
-  textSection: "col-span-2 flex items-center justify-center py-4",
-  imageContainer: "col-span-2 flex items-center justify-center",
-  fullWidthSection: "col-span-4 flex flex-col gap-3 py-4",
-  sideImageContainer: "flex items-start justify-center py-4",
-  contentSection: "col-span-3 flex flex-col gap-4 py-4",
-  halfSection: "col-span-2 row-span-2 row-start-9 flex flex-col",
-  halfSectionRight: "col-span-2 row-span-2 col-start-3 row-start-9",
+  article: "grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 text-lg",
+  textSection: "order-2 md:order-1 md:col-span-2 flex items-center justify-center py-4",
+  imageContainer: "order-1 md:order-2 md:col-span-2 flex items-center justify-center",
+  fullWidthSection: "order-3 md:col-span-4 flex flex-col gap-3 py-4",
+  sideImageContainer: "order-5 md:order-4 flex items-start justify-center py-4",
+  contentSection: "order-4 md:order-5 md:col-span-3 flex flex-col gap-4 py-4",
+  halfSection: "order-6 md:col-span-2 md:row-span-2 md:row-start-9 flex flex-col",
+  halfSectionRight: "order-7 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-9",
   image: "w-full h-full object-contain rounded-lg",
   imageAuto: "w-full h-auto object-contain rounded-lg",
   list: "list-disc list-inside space-y-2",
@@ -37,6 +37,7 @@ const styles = {
           alt="RedViva1"
           width={2048}
           height={1365}
+          fetchpriority="high"
           loading="eager"
           class={styles.image}
         />
@@ -53,6 +54,7 @@ const styles = {
           alt="RedViva2"
           width={408}
           height={612}
+          fetchpriority="high"
           loading="lazy"
           class={styles.imageAuto}
         />

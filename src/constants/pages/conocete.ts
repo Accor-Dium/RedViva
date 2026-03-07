@@ -24,5 +24,5 @@ export const OBJETIVOS = {
     4: "Garantizar acceso confidencial a información, orientación jurídica y acompañamiento psicológico gratuito.",
     5: "Generar información preventiva que permita identificar contextos de riesgo y fortalecer estrategias focalizadas en las instituciones educativas."
 }
-export const IMAGE1 = "https://res.cloudinary.com/dmuvi6zgp/image/upload/v1772686171/RedViva-landing_o2z1ea.png"
-export const IMAGE2 = "https://res.cloudinary.com/dmuvi6zgp/image/upload/v1772687899/girl-writing_byzr3q.png"
+export const IMAGE1 = "https://res.cloudinary.com/dayv6h4ke/image/upload/v1772860159/ChatGPT_Image_Mar_4_2026_09_05_18_PM_qiiepm.png"
+export const IMAGE2 = "https://res.cloudinary.com/dayv6h4ke/image/upload/v1772860159/ChatGPT_Image_Mar_4__2026__10_19_32_PM-removebg-preview_1_qinivd.png"
