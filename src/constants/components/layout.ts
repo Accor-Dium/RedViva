@@ -1,7 +1,7 @@
 import { RATIO_DEFAULT } from "./tarjetas";
 
 export const RESIZE_CARD_CONSTANTS = {
-  BUTTON_TEXT: "Haz click aquí",
+BUTTON_TEXT: "Para más información haz clic aquí",
   DEFAULT_ALT_TEXT: "",
   DEFAULT_RATIO: RATIO_DEFAULT,
   DEFAULT_WIDTH: "100%",

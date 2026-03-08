@@ -8,6 +8,7 @@ export interface ImageItem {
   alt?: string;
   ratio?: CardRatio;
   href?: string;
+  tarjetaId?: number;
 }
 
 interface Props {
@@ -17,14 +18,15 @@ interface Props {
 const { images } = Astro.props as Props;
 ---
 
-<div class="columns-2 lg:columns-3 xl:columns-4 gap-3">
+<div class="columns-1 md:columns-2 lg:columns-3  gap-3">
   {images.map((image, index) => (
     <Card
       src={image.src}
       alt={image.alt}
       ratio={image.ratio || "1:1"}
       href={image.href}
-      class="break-inside-avoid"
+      tarjetaId={image.tarjetaId}
+      class="break-inside-avoid mt-2"
       loading={index < 6 ? "eager" : "lazy"}
     />
   ))}

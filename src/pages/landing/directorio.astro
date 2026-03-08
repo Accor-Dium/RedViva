@@ -9,7 +9,7 @@ import { prisma } from "../../lib/prisma"
 import { getImageRatioFromCloudinary } from "../../utils/ratio"
 
 const styles = {
-    main: " min-h-screen w-full flex flex-col gap-6 justify-start px-6  md:pt-14 text-white"
+    main: " min-h-screen w-full flex flex-col gap-6 justify-start px-2   md:pt-14 text-white"
 }
 
 // Obtener tarjetas informativas desde la base de datos
@@ -31,6 +31,7 @@ const imageItems = await Promise.all(
             alt: tarjeta.descripcion,
             ratio,
             href: tarjeta.enlace,
+            tarjetaId: tarjeta.id,
         }
     })
 )

@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { LinkSimpleIcon } from "@phosphor-icons/react";
 import { RESIZE_CARD_CONSTANTS } from "../constants/components/layout";
 import { RATIO_DIMENSIONS, RATIO_MAP } from "../constants/components/tarjetas";
 import type { CardRatio } from "../types/directorio/InterfaceTarjInformativas";
@@ -11,6 +12,7 @@ interface Props {
   ratio?: CardRatio;
   width?: string;
   href?: string;
+  tarjetaId?: number;
   class?: string;
   loading?: "lazy" | "eager";
 }
@@ -21,6 +23,7 @@ const {
   ratio = RESIZE_CARD_CONSTANTS.DEFAULT_RATIO,
   width = RESIZE_CARD_CONSTANTS.DEFAULT_WIDTH,
   href,
+  tarjetaId,
   class: className = "",
   loading = "lazy",
 } = Astro.props as Props;
@@ -51,10 +54,21 @@ const imageDimensions = RATIO_DIMENSIONS[ratio] || RATIO_DIMENSIONS["1:1"];
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          class="block px-4 pt-2 text-center text-white font-semibold transition-colors"
+          data-tarjeta-id={tarjetaId}
+          class="flex items-center justify-center gap-2 px-4 pt-2 text-center text-white font-semibold transition-colors tarjeta-link"
         >
+          <LinkSimpleIcon size={18} />
           {RESIZE_CARD_CONSTANTS.BUTTON_TEXT}
         </a>
       )
     }
 </TiltCard>
+
+<script>
+  import { initTarjetaTracking } from '../utils/tarjetaTracker';
+
+  // Inicializar tracking de tarjetas cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    initTarjetaTracking();
+  });
+</script>
