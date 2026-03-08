@@ -19,7 +19,7 @@ export async function getLocalidades(): Promise<FilterOption[]> {
 }
 
 /**
- * Obtener los turnos de las ecuelas
+ * Obtener los turnos de las escuelas
  */
 export async function getTurnos() {
     return TURNOS
