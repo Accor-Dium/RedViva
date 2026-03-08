@@ -36,3 +36,15 @@ export function parseId(id: string | undefined): number | null {
     const parsed = Number(id);
     return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
 }
+
+export function parsePositiveInt(value: string | null): number | null {
+    if (!value) return null;
+    const num = Number(value);
+    return Number.isInteger(num) && num > 0 ? num : null;
+}
+
+export function parseDate(value: string | null): Date | null {
+    if (!value) return null;
+    const date = new Date(value);
+    return isNaN(date.getTime()) ? null : date;
+}

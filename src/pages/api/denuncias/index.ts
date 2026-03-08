@@ -2,13 +2,14 @@
 
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";
-import { successResponse, errorResponse } from "../../../lib/api/helpers";
+import { successResponse, errorResponse} from "../../../lib/api/helpers";
+import { parsePositiveInt, parseDate } from "../../../lib/api/helpers";
 
 // crear denuncia
 export async function POST({ request }: APIContext): Promise<Response> {
     try {
         const body = await request.json();
-        const { escuelaId, turno, descripcion} = body;
+        const { escuelaId, turno, descripcion } = body;
 
         // validaciones
         if (!escuelaId || typeof escuelaId !== "number" || escuelaId <= 0) {
@@ -51,21 +52,47 @@ export async function GET({ url }: APIContext): Promise<Response> {
     try {
         const page = Math.max(1, Number(url.searchParams.get("page")) || 1);
         const limit = Math.min(50, Math.max(1, Number(url.searchParams.get("limit")) || 10));
-        const escuelaId = url.searchParams.get("escuelaId");
-        const localidadId = url.searchParams.get("localidadId");
-        const fechaDesde = url.searchParams.get("fechaDesde");
-        const fechaHasta = url.searchParams.get("fechaHasta");
+
+        // Validar que los IDs sean números positivos válidos
+        const rawEscuelaId = url.searchParams.get("escuelaId");
+        const rawLocalidadId = url.searchParams.get("localidadId");
+        const rawFechaDesde = url.searchParams.get("fechaDesde");
+        const rawFechaHasta = url.searchParams.get("fechaHasta");
+
+        const escuelaId = parsePositiveInt(rawEscuelaId);
+        const localidadId = parsePositiveInt(rawLocalidadId);
+
+        // Validar que si se envió el param, sea un número válido
+        if (rawEscuelaId && !escuelaId) {
+            return errorResponse("El parámetro 'escuelaId' debe ser un número entero positivo", 400);
+        }
+        if (rawLocalidadId && !localidadId) {
+            return errorResponse("El parámetro 'localidadId' debe ser un número entero positivo", 400);
+        }
+
+        // Validar fechas
+        const fechaDesde = parseDate(rawFechaDesde);
+        const fechaHasta = parseDate(rawFechaHasta);
+
+        if (rawFechaDesde && !fechaDesde) {
+            return errorResponse("El parámetro 'fechaDesde' debe ser una fecha válida (YYYY-MM-DD)", 400);
+        }
+        if (rawFechaHasta && !fechaHasta) {
+            return errorResponse("El parámetro 'fechaHasta' debe ser una fecha válida (YYYY-MM-DD)", 400);
+        }
 
         // Construcción dinámica del where
         const where: Record<string, unknown> = {};
 
-        if (escuelaId) where.escuelaId = Number(escuelaId);
-        if (localidadId) where.escuela = { localidadId: Number(localidadId) };
+        if (escuelaId) where.escuelaId = escuelaId;
+        if (localidadId) where.escuela = { localidadId };
 
         if (fechaDesde || fechaHasta) {
             where.fecha_creacion = {
-                ...(fechaDesde && { gte: new Date(fechaDesde) }),
-                ...(fechaHasta && { lte: new Date(`${fechaHasta}T23:59:59.999Z`) }),
+                // fechaDesde="2026-03-08" → gte: inicio del día en UTC
+                ...(fechaDesde && { gte: new Date(`${rawFechaDesde}T00:00:00.000Z`) }),
+                // fechaHasta="2026-03-08" → lte: fin del día en UTC
+                ...(fechaHasta && { lte: new Date(`${rawFechaHasta}T23:59:59.999Z`) }),
             };
         }
 
