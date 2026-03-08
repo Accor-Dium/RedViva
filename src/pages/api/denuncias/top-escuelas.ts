@@ -67,7 +67,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
 
         return successResponse(resultado, "Top 10 escuelas con más denuncias");
     } catch (error) {
-        console.error(error);
         return errorResponse("Error al obtener el top de escuelas");
     }
 }

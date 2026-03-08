@@ -4,7 +4,7 @@ import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";
 import { successResponse, errorResponse } from "../../../lib/api/helpers";
 
-
+// Distribución de denuncias por localidad
 export async function GET({ url }: APIContext): Promise<Response> {
     try {
         const fechaDesde = url.searchParams.get("fechaDesde");
@@ -64,7 +64,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
 
         return successResponse(resultado, "Distribución de denuncias por localidad");
     } catch (error) {
-        console.error(error);
         return errorResponse("Error al obtener la distribución por localidad");
     }
 }

@@ -11,25 +11,9 @@ import {
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
-    type ChartConfig,
 } from "@/components/ui/chart"
 
-interface BarChartDataItem {
-    label: string
-    value: number
-}
-
-interface ChartBarLabelCustomProps {
-    data: BarChartDataItem[]
-    color?: string
-    title?: string
-    description?: string
-    footerText?: string
-    footerSubtext?: string
-    dataLabel?: string
-    showTrendingIcon?: boolean
-    height?: number
-}
+import type  {BarChartDataItem, ChartBarLabelCustomProps, ChartConfig}  from "@/types/estadisticas/interfaces"
 
 function ChartBar({
     data,

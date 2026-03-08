@@ -13,22 +13,10 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart"
 
-interface PieChartDataItem {
-  name: string
-  value: number
-  color: string
-}
+import type {BarraProps, ChartConfig} from "@/types/estadisticas/interfaces"
 
-interface BarraProps {
-  data: PieChartDataItem[]
-  title?: string
-  description?: string
-  footerText?: string
-  footerSubtext?: string
-}
 
 function ChartPie({ 
   data, 

@@ -1,4 +1,4 @@
-import { defineMiddleware } from "astro:middleware";
+/* import { defineMiddleware } from "astro:middleware";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { url, cookies, redirect } = context;
@@ -15,4 +15,4 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   return next();
-});
+}); */

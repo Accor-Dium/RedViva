@@ -11,10 +11,10 @@ export async function GET({ url }: APIContext): Promise<Response> {
         const fechaHasta = url.searchParams.get("fechaHasta");
         const grado = url.searchParams.get("grado");
 
-        // Construcción del where para filtros
+
         const where: Record<string, unknown> = {};
 
-        // Filtro de fechas
+
         if (fechaDesde || fechaHasta) {
             where.fecha_creacion = {
                 ...(fechaDesde && { gte: new Date(fechaDesde) }),
@@ -22,14 +22,14 @@ export async function GET({ url }: APIContext): Promise<Response> {
             };
         }
 
-        // Filtro de grado
+
         if (grado && grado.trim().length > 0) {
             where.escuela = {
                 grado: grado.trim(),
             };
         }
 
-        // Obtener todas las denuncias con el turno
+
         const denuncias = await prisma.denuncia.findMany({
             where,
             select: {
@@ -37,7 +37,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
             },
         });
 
-        // Agrupar y contar por turno
         const distribucion = denuncias.reduce((acc, denuncia) => {
             const turno = denuncia.turno;
             if (!acc[turno]) {
@@ -47,7 +46,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
             return acc;
         }, {} as Record<string, number>);
 
-        // Convertir a array y ordenar por cantidad de denuncias (descendente)
         const resultado = Object.entries(distribucion)
             .map(([turno, denuncias]) => ({
                 turno,
@@ -57,7 +55,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
 
         return successResponse(resultado, "Distribución de denuncias por turno");
     } catch (error) {
-        console.error(error);
         return errorResponse("Error al obtener la distribución por turno");
     }
 }
