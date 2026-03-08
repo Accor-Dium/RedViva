@@ -22,6 +22,10 @@ function buildParams(page: number, limit: number, filters: DenunciasFilters): st
     if (filters.fechaDesde) params.set("fechaDesde", filters.fechaDesde);
     if (filters.fechaHasta) params.set("fechaHasta", filters.fechaHasta);
 
+    if (filters.fechaDesde || filters.fechaHasta) {
+        params.set("tz", String(new Date().getTimezoneOffset()));
+    }
+
     return params.toString();
 }
 

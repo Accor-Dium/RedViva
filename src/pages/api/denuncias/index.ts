@@ -86,22 +86,29 @@ export async function GET({ url }: APIContext): Promise<Response> {
         if (fechaDesde || fechaHasta) {
             const fechaFilter: Record<string, Date> = {};
 
+            // Offset del navegador en minutos (ej: 360 para UTC-6)
+            const tzOffsetMs = (Number(url.searchParams.get("tz")) || 0) * 60 * 1000;
+
             if (fechaDesde) {
-                fechaFilter.gte = new Date(Date.UTC(
-                    fechaDesde.getFullYear(),
-                    fechaDesde.getMonth(),
-                    fechaDesde.getDate(),
-                    0, 0, 0, 0
-                ));
+                fechaFilter.gte = new Date(
+                    Date.UTC(
+                        fechaDesde.getUTCFullYear(),
+                        fechaDesde.getUTCMonth(),
+                        fechaDesde.getUTCDate(),
+                        0, 0, 0, 0
+                    ) + tzOffsetMs
+                );
             }
 
             if (fechaHasta) {
-                fechaFilter.lte = new Date(Date.UTC(
-                    fechaHasta.getFullYear(),
-                    fechaHasta.getMonth(),
-                    fechaHasta.getDate(),
-                    23, 59, 59, 999
-                ));
+                fechaFilter.lte = new Date(
+                    Date.UTC(
+                        fechaHasta.getUTCFullYear(),
+                        fechaHasta.getUTCMonth(),
+                        fechaHasta.getUTCDate(),
+                        23, 59, 59, 999
+                    ) + tzOffsetMs
+                );
             }
 
             where.fecha_creacion = fechaFilter;
