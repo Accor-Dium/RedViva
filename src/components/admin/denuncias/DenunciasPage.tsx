@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import FilterBar from "./FilterBar.tsx";
 import DenunciasTable from "./DenunciasTable.tsx";
 import DeleteModal from "./DeleteModal.tsx";
+import DetailModal from "./DetailModal.tsx";
 import { DENUNCIAS_PAGE } from "../../../constants/components/denuncias.ts";
 import type {
     DenunciaRow,
@@ -40,6 +41,9 @@ export default function DenunciasPage() {
 
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+
+    const [detailModalOpen, setDetailModalOpen] = useState(false);
+    const [detailDenuncia, setDetailDenuncia] = useState<DenunciaRow | null>(null);
 
     const fetchDenuncias = useCallback(
         async (pageNum: number) => {
@@ -91,6 +95,11 @@ export default function DenunciasPage() {
     const openDeleteModal = (id: number) => {
         setDeleteTargetId(id);
         setDeleteModalOpen(true);
+    };
+
+    const openDetailModal = (denuncia: DenunciaRow) => {
+        setDetailDenuncia(denuncia);
+        setDetailModalOpen(true);
     };
 
     const handleFilterChange = (newFilters: DenunciasFilters) => {
@@ -146,6 +155,7 @@ export default function DenunciasPage() {
                     totalPages={totalPages}
                     onPageChange={setPage}
                     onDelete={openDeleteModal}
+                    onView={openDetailModal}
                 />
             )}
 
@@ -168,6 +178,15 @@ export default function DenunciasPage() {
                     setDeleteTargetId(null);
                 }}
                 onConfirm={handleDelete}
+            />
+
+            <DetailModal
+                isOpen={detailModalOpen}
+                denuncia={detailDenuncia}
+                onClose={() => {
+                    setDetailModalOpen(false);
+                    setDetailDenuncia(null);
+                }}
             />
         </div>
     );
