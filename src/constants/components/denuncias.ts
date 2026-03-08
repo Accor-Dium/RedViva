@@ -63,6 +63,14 @@ export const DENUNCIAS_PAGE = {
         CANCEL: "Cancelar",
         DELETING: "Eliminando...",
     },
+    DETAIL_MODAL: {
+        TITLE: "Denuncia",
+        ESCUELA: "Escuela",
+        LOCALIDAD: "Localidad",
+        TURNO: "Turno",
+        FECHA: "Fecha de creación",
+        DESCRIPCION: "Descripción",
+    },
     EXCEL: {
         FILENAME: "denuncias",
         SHEET_NAME: "Denuncias",

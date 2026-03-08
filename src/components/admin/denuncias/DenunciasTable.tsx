@@ -15,7 +15,7 @@ import {
     PaginationNext,
     PaginationEllipsis,
 } from "../../../components/ui/pagination.tsx";
-import { Trash } from "@phosphor-icons/react";
+import { Trash, Eye } from "@phosphor-icons/react";
 import { DENUNCIAS_PAGE } from "../../../constants/components/denuncias.ts";
 import type { DenunciaRow } from "../../../constants/components/denuncias.ts";
 
@@ -25,6 +25,7 @@ interface DenunciasTableProps {
     totalPages: number;
     onPageChange: (page: number) => void;
     onDelete: (id: number) => void;
+    onView: (denuncia: DenunciaRow) => void;
 }
 
 const styles = {
@@ -39,6 +40,7 @@ const styles = {
         empty: "text-center py-8 text-gray-500",
         cell: "font-medium",
         deleteButton: "inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer",
+        viewButton: "inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 transition-colors cursor-pointer",
     },
     pagination: {
         disabled: "pointer-events-none opacity-50",
@@ -80,6 +82,7 @@ export default function DenunciasTable({
                                            totalPages,
                                            onPageChange,
                                            onDelete,
+                                           onView,
                                        }: DenunciasTableProps) {
     const { TABLE_HEADERS } = DENUNCIAS_PAGE;
 
@@ -113,13 +116,22 @@ export default function DenunciasTable({
                                     <TableCell>{denuncia.escuela.localidad.nombre}</TableCell>
                                     <TableCell>{formatDate(denuncia.fecha_creacion)}</TableCell>
                                     <TableCell className="text-center">
-                                        <button
-                                            onClick={() => onDelete(denuncia.id)}
-                                            className={styles.body.deleteButton}
-                                            title="Eliminar denuncia"
-                                        >
-                                            <Trash size={20} />
-                                        </button>
+                                        <div className="flex items-center justify-center gap-1">
+                                            <button
+                                                onClick={() => onView(denuncia)}
+                                                className={styles.body.viewButton}
+                                                title="Ver detalle"
+                                            >
+                                                <Eye size={20} />
+                                            </button>
+                                            <button
+                                                onClick={() => onDelete(denuncia.id)}
+                                                className={styles.body.deleteButton}
+                                                title="Eliminar denuncia"
+                                            >
+                                                <Trash size={20} />
+                                            </button>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ))
