@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import { v2 as cloudinary } from "cloudinary";
 import type { UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
 
+export const prerender = false;
+
 let cloudinaryConfigured = false;
 
 function ensureCloudinaryConfigured() {
@@ -10,10 +12,8 @@ function ensureCloudinaryConfigured() {
     }
 
     const cloudName = import.meta.env.CLOUDINARY_CLOUD_NAME;
-    const apiKey =
-        import.meta.env.CLOUDINARY_API_KEY
-    const apiSecret =
-        import.meta.env.CLOUDINARY_API_SECRET
+    const apiKey = import.meta.env.CLOUDINARY_API_KEY;
+    const apiSecret = import.meta.env.CLOUDINARY_API_SECRET;
 
     const missing: string[] = [];
     if (!cloudName) missing.push("CLOUDINARY_CLOUD_NAME");
@@ -52,22 +52,39 @@ const ALLOWED_MIME_TYPES = [
     'image/webp',
 ];
 
-export const POST: APIRoute = async ({ request }) => {
-    // Headers CORS que se usarán en todas las respuestas
-    const corsHeaders = {
+// Orígenes permitidos
+const ALLOWED_ORIGINS = [
+    'https://www.red-viva.org',
+    'https://red-viva.org',
+    'http://localhost:4321',
+    'http://localhost:3000'
+];
+
+function getCorsHeaders(origin: string | null) {
+    const allowedOrigin = origin && ALLOWED_ORIGINS.includes(origin) 
+        ? origin 
+        : ALLOWED_ORIGINS[0];
+    
+    return {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://www.red-viva.org',
+        'Access-Control-Allow-Origin': allowedOrigin,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, image-upload-token',
+        'Access-Control-Allow-Credentials': 'true',
     };
+}
 
-    // Maneja preflight request
-    if (request.method === 'OPTIONS') {
-        return new Response(null, {
-            status: 204,
-            headers: corsHeaders,
-        });
-    }
+export const OPTIONS: APIRoute = async ({ request }) => {
+    const origin = request.headers.get('origin');
+    return new Response(null, {
+        status: 204,
+        headers: getCorsHeaders(origin),
+    });
+};
+
+export const POST: APIRoute = async ({ request }) => {
+    const origin = request.headers.get('origin');
+    const corsHeaders = getCorsHeaders(origin);
 
     try {
         ensureCloudinaryConfigured();
