@@ -4,7 +4,13 @@ import type {
     DenunciasPaginatedData,
     DenunciasFilters,
 } from "../constants/components/denuncias.ts";
-import type { DenunciaPayload } from "@/types/denuncias/interfaces.ts";
+import type { 
+    DenunciaPayload,
+    TopEscuela,
+    DistribucionGrado,
+    DistribucionLocalidad,
+    DistribucionTurno,
+} from "@/types/denuncias/interfaces.ts";
 
 const BASE_URL = "/api/denuncias";
 
@@ -19,6 +25,21 @@ function buildParams(page: number, limit: number, filters: DenunciasFilters): st
 
     if (filters.escuelaId) params.set("escuelaId", String(filters.escuelaId));
     if (filters.localidadId) params.set("localidadId", String(filters.localidadId));
+    if (filters.fechaDesde) params.set("fechaDesde", filters.fechaDesde);
+    if (filters.fechaHasta) params.set("fechaHasta", filters.fechaHasta);
+
+    if (filters.fechaDesde || filters.fechaHasta) {
+        params.set("tz", String(new Date().getTimezoneOffset()));
+    }
+
+    return params.toString();
+}
+
+
+function buildStatsParams(filters: DenunciasFilters = {}): string {
+    const params = new URLSearchParams();
+
+    if (filters.grado) params.set("grado", filters.grado);
     if (filters.fechaDesde) params.set("fechaDesde", filters.fechaDesde);
     if (filters.fechaHasta) params.set("fechaHasta", filters.fechaHasta);
 
@@ -84,4 +105,53 @@ export async function postDenuncia(data: DenunciaPayload): Promise<void> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
     });
+}
+
+
+/**
+ * Obtiene el Top 10 de escuelas con más denuncias
+ */
+export async function getTopEscuelas(
+    filters: DenunciasFilters = {}
+): Promise<TopEscuela[]> {
+    const query = buildStatsParams(filters);
+    const url = query ? `${BASE_URL}/top-escuelas?${query}` : `${BASE_URL}/top-escuelas`;
+    const res = await apiFetch<TopEscuela[]>(url);
+    return res.data;
+}
+
+/**
+ * Obtiene la distribución de denuncias por grado
+ */
+export async function getDistribucionGrado(
+    filters: DenunciasFilters = {}
+): Promise<DistribucionGrado[]> {
+    const query = buildStatsParams(filters);
+    const url = query ? `${BASE_URL}/distribucion-grado?${query}` : `${BASE_URL}/distribucion-grado`;
+    const res = await apiFetch<DistribucionGrado[]>(url);
+    return res.data;
+}
+
+/**
+ * Obtiene la distribución de denuncias por localidad
+ */
+export async function getDenunciasLocalidad(
+    filters: DenunciasFilters = {}
+): Promise<DistribucionLocalidad[]> {
+    const query = buildStatsParams(filters);
+    const url = query ? `${BASE_URL}/denuncias-localidad?${query}` : `${BASE_URL}/denuncias-localidad`;
+    const res = await apiFetch<DistribucionLocalidad[]>(url);
+    return res.data;
+}
+
+/**
+ * Obtiene la distribución de denuncias por turno
+ */
+export async function getDenunciasTurno(
+    filters: DenunciasFilters = {}
+): Promise<DistribucionTurno[]> {
+    const query = buildStatsParams(filters);
+    const url = query ? `${BASE_URL}/denuncias-turno?${query}` : `${BASE_URL}/denuncias-turno`;
+    const res = await apiFetch<DistribucionTurno[]>(url);
+    return res.data;
 }

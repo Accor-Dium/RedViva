@@ -1,0 +1,17 @@
+---
+import AdminLayout from "../layouts/AdminLayout.astro";
+import Title from "../../components/Title.astro";
+import Estadisticos from "../../components/admin/estadisticas/Estadisticos"
+
+const styles = {
+  main: "max-h-screen w-full flex flex-col items-center",
+
+};
+---
+
+<AdminLayout title="Estadisticos - Admin">
+  <div class={styles.main}>
+    <Title name="ESTADíSTICAS" color="text-black" />
+    <Estadisticos client:load/>
+  </div>
+</AdminLayout>
