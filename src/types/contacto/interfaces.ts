@@ -1,6 +1,6 @@
-type ComboboxItem = { label: string; value: string }
+export type ComboboxItem = { label: string; value: string }
 
-interface ComboboxProps {
+export interface ComboboxProps {
     id: string
     name: string
     placeholder: string
