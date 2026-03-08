@@ -10,7 +10,7 @@ export async function DELETE({ params }: APIContext): Promise<Response> {
     try {
         const tarjeta = await prisma.tarj_informativas.findUnique({ where: { id } });
 
-        if (!tarjeta) return errorResponse("Denuncia no encontrada", 404);
+        if (!tarjeta) return errorResponse("Tarjeta no encontrada", 404);
 
         await prisma.tarj_informativas.delete({ where: { id } });
 
