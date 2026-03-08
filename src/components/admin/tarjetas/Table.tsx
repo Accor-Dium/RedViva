@@ -1,6 +1,6 @@
 import { TABLE } from '@/constants/components/tarjetas';
 import RowTable from './RowTable';
-import type { TableProps } from '@/types/TableProps';
+import type { TableProps } from '@/types/admin/TableProps';
 
 export default function Table({ rows }: TableProps) {
   return (
