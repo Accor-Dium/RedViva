@@ -37,12 +37,17 @@ export function parseId(id: string | undefined): number | null {
     return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
 }
 
+/**
+ * Parsea y valida un entero positivo desde query params (string | null).
+ * Reutiliza parseId normalizando null → undefined para evitar duplicación (DRY).
+ */
 export function parsePositiveInt(value: string | null): number | null {
-    if (!value) return null;
-    const num = Number(value);
-    return Number.isInteger(num) && num > 0 ? num : null;
+    return parseId(value ?? undefined);
 }
 
+/**
+ * Parsea y valida una fecha desde query params.
+ */
 export function parseDate(value: string | null): Date | null {
     if (!value) return null;
     const date = new Date(value);
