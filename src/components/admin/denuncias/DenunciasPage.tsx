@@ -12,7 +12,7 @@ import { FileXls } from "@phosphor-icons/react";
 
 import { getDenuncias, getAllDenuncias, deleteDenuncia } from "../../../services/denuncias.services.ts";
 import { getEscuelas, getLocalidades } from "../../../services/catalogos.services.ts";
-import { exportDenunciasToExcel } from "../../../utils/excel.ts";
+const { exportDenunciasToExcel } = await import("../../../utils/excel.ts");
 
 const styles = {
     container: "flex flex-col gap-6 w-full",
