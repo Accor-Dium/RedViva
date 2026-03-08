@@ -18,14 +18,8 @@ export async function uploadFile(
     });
 
     if (!res.ok) {
-        let errorMsg = 'Error al subir la imagen'
-        try {
-            const errorData = await res.json()
-            errorMsg = errorData.details?.join(', ') || errorData.error || errorMsg
-        } catch {
-            errorMsg = `Error ${res.status}: ${await res.text().catch(() => res.statusText)}`
-        }
-        throw new Error(errorMsg)
+        const errorData = await res.json();
+        throw new Error(errorData.details?.join(', ') || errorData.error || 'Error al subir la imagen');
     }
 
     return await res.json();
