@@ -36,7 +36,7 @@ export const LoginForm = () => {
       if (response.ok) {
         document.cookie = "isLoggedIn=true; path=/; max-age=30";
         localStorage.setItem('user', JSON.stringify(result.data));
-        window.location.href = "/admin/dashboard";
+        window.location.href = "/admin/estadisticas";
       } else {
         alert(result.message || "Contraseña o correo incorrectos.");
       }
