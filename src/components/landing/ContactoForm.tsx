@@ -92,7 +92,7 @@ const formStyles = {
     textarea:    "w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-300 resize-none",
     statusOk:    "text-sm text-center text-green-600",
     statusError: "text-sm text-center text-red-500",
-    button:      "self-center rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 text-white text-sm px-7 py-3",
+    button:      "self-center rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm px-7 py-3",
 }
 
 export function ContatoForm() {
@@ -106,6 +106,7 @@ export function ContatoForm() {
     const [status, setStatus] = useState<{ msg: string; ok: boolean } | null>(null)
     const [showSuccess, setShowSuccess] = useState(false)
     const [resetKey, setResetKey] = useState(0)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
         getEscuelas()
@@ -126,6 +127,7 @@ export function ContatoForm() {
         }
 
         try {
+            setIsSubmitting(true)
             await postDenuncia({
                 escuelaId: Number(escuela.value),
                 turno: turno.label,
@@ -135,7 +137,8 @@ export function ContatoForm() {
             setShowSuccess(true)
         } catch {
             setStatus({ msg: "Ocurrió un error al enviar la denuncia. Inténtalo de nuevo.", ok: false })
-            return
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -209,8 +212,16 @@ export function ContatoForm() {
             )}
 
             {/* Enviar */}
-            <button type="submit" className={formStyles.button}>
-                Enviar denuncia
+            <button type="submit" disabled={isSubmitting} className={formStyles.button}>
+                {isSubmitting ? (
+                    <>
+                        <svg className="inline-block mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                        </svg>
+                        Enviando…
+                    </>
+                ) : "Enviar denuncia"}
             </button>
         </form>
         </>
