@@ -11,12 +11,6 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://www.red-viva.org',
   output: 'server',
-  security: {
-    allowedDomains: [
-      { hostname: 'https://www.red-viva.org/' }, 
-      { hostname: 'localhost' }
-    ]
-  },
   integrations: [react()],
   image: {
     domains: ['res.cloudinary.com', 'via.placeholder.com']

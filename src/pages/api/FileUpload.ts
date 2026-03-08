@@ -53,6 +53,22 @@ const ALLOWED_MIME_TYPES = [
 ];
 
 export const POST: APIRoute = async ({ request }) => {
+    // Headers CORS que se usarán en todas las respuestas
+    const corsHeaders = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'https://www.red-viva.org',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, image-upload-token',
+    };
+
+    // Maneja preflight request
+    if (request.method === 'OPTIONS') {
+        return new Response(null, {
+            status: 204,
+            headers: corsHeaders,
+        });
+    }
+
     try {
         ensureCloudinaryConfigured();
     } catch (error: any) {
@@ -66,11 +82,10 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 500,
-                headers: { "Content-Type": "application/json" },
+                headers: corsHeaders,
             }
         );
     }
-
 
     const authHeader = request.headers.get('image-upload-token');
     const expectedToken = import.meta.env.FILE_UPLOAD_ADMIN_TOKEN;
@@ -80,7 +95,7 @@ export const POST: APIRoute = async ({ request }) => {
             JSON.stringify({ error: 'Unauthorized' }),
             {
                 status: 401,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
@@ -93,7 +108,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
@@ -106,11 +121,10 @@ export const POST: APIRoute = async ({ request }) => {
             JSON.stringify({ error: 'Invalid form data payload.' }),
             {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
-
 
     const files = formData.getAll('images');
     const validFiles = files.filter((file): file is File => file instanceof File);
@@ -122,7 +136,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
@@ -135,7 +149,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
@@ -172,7 +186,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
@@ -221,11 +235,10 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 500,
-                headers: { 'Content-Type': 'application/json' },
+                headers: corsHeaders,
             }
         );
     }
-
 
     return new Response(
         JSON.stringify({
@@ -234,7 +247,7 @@ export const POST: APIRoute = async ({ request }) => {
         }),
         {
             status: 200,
-            headers: { 'Content-Type': 'application/json' },
+            headers: corsHeaders,
         }
     );
 };
