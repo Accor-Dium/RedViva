@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { getEscuelas, getTurnos } from "../../services/catalogos.service"
 import { postDenuncia } from "../../services/denuncias.services"
+import { SuccessModal } from "./SuccessModal"
 
 // ─── Combobox con búsqueda ──────────────────────────────────────────────────
 
@@ -103,6 +104,8 @@ export function ContatoForm() {
     const [descripcion, setDescripcion] = useState("")
 
     const [status, setStatus] = useState<{ msg: string; ok: boolean } | null>(null)
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [resetKey, setResetKey] = useState(0)
 
     useEffect(() => {
         getEscuelas()
@@ -129,16 +132,25 @@ export function ContatoForm() {
                 descripcion: descripcion.trim(),
             })
             setStatus({ msg: "¡Denuncia enviada con éxito!", ok: true })
+            setShowSuccess(true)
         } catch {
             setStatus({ msg: "Ocurrió un error al enviar la denuncia. Inténtalo de nuevo.", ok: false })
             return
         }
+    }
+
+    function handleModalAccept() {
+        setShowSuccess(false)
         setEscuela({ label: "", value: "" })
         setTurno({ label: "", value: "" })
         setDescripcion("")
+        setStatus(null)
+        setResetKey(k => k + 1)
     }
 
     return (
+        <>
+        <SuccessModal isOpen={showSuccess} onAccept={handleModalAccept} />
         <form onSubmit={handleSubmit} className={formStyles.form} noValidate>
 
             {/* Escuela */}
@@ -147,6 +159,7 @@ export function ContatoForm() {
                     Escuela
                 </label>
                 <Combobox
+                    key={`escuela-${resetKey}`}
                     id="escuela-input"
                     name="escuela"
                     placeholder="Buscar escuela…"
@@ -162,6 +175,7 @@ export function ContatoForm() {
                     Turno
                 </label>
                 <Combobox
+                    key={`turno-${resetKey}`}
                     id="turno-input"
                     name="turno"
                     placeholder="Buscar turno…"
@@ -199,5 +213,6 @@ export function ContatoForm() {
                 Enviar denuncia
             </button>
         </form>
+        </>
     )
 }
