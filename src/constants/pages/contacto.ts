@@ -1,4 +1,4 @@
-export const LINEA_WHATSAPP = "https://wa.me/524436877743";
+export const LINEA_WHATSAPP = "https://wa.me/message/6CLD6EI4CTLIN1?src=qr";
 export const WHATSAPP_IMG = "https://res.cloudinary.com/dayv6h4ke/image/upload/v1772772941/image-removebg-preview_1_f4jmqk.png";
 export const TITULO1 = "¿NECESITAS AYUDA CON ALGUN PROBLEMA?";
 export const TITULO2 = "¿FUISTE VICTIMA DE ALGÚN TIPO DE ABUSO?";
@@ -19,3 +19,14 @@ export const SCOPE_MODAL_PARAGRAPH_2 =
 export const SCOPE_MODAL_PARAGRAPH_3 =
 	"La institución actúa únicamente como canal de prevención y recepción de información, sin determinar responsabilidades ni emitir juicios sobre los hechos señalados.";
 export const SCOPE_MODAL_BUTTON_TEXT = "Entendido, continuar";
+
+export const TURNOS = {
+	1: "Matutino",
+	2: "Vespertino"
+}
+
+export const SUCCESS_MODAL = {
+	TITLE: "¡Denuncia enviada!",
+	DESCRIPTION: "Tu denuncia ha sido registrada correctamente. Gracias por contribuir a una comunidad más segura.",
+	BUTTON: "Aceptar",
+} as const

@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect } from "react"
-
-// TODO: importar servicios cuando estén listos
-// import { getEscuelas } from "../../services/escuelas"
-// import { getTurnos }   from "../../services/turnos"
-
-type ComboboxItem = { label: string; value: string }
+import { getEscuelas, getTurnos } from "../../services/catalogos.service"
+import { postDenuncia } from "../../services/denuncias.services"
+import { SuccessModal } from "./SuccessModal"
+import type { ComboboxItem, ComboboxProps } from "../../types/contacto/interfaces"
 
 // ─── Combobox con búsqueda ──────────────────────────────────────────────────
 
@@ -16,14 +14,7 @@ const comboboxStyles = {
     item:      "px-3 py-2 text-sm cursor-pointer hover:bg-red-50 hover:text-red-700",
 }
 
-interface ComboboxProps {
-    id: string
-    name: string
-    placeholder: string
-    items: ComboboxItem[]
-    value: string
-    onSelect: (item: ComboboxItem) => void
-}
+
 
 function Combobox({ id, name, placeholder, items, value, onSelect }: ComboboxProps) {
     const [query, setQuery]   = useState("")
@@ -102,7 +93,7 @@ const formStyles = {
     textarea:    "w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-300 resize-none",
     statusOk:    "text-sm text-center text-green-600",
     statusError: "text-sm text-center text-red-500",
-    button:      "self-center rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 text-white text-sm px-7 py-3",
+    button:      "self-center rounded-md font-semibold cursor-pointer transition-colors bg-red-400 hover:bg-red-500 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm px-7 py-3",
 }
 
 export function ContatoForm() {
@@ -114,13 +105,18 @@ export function ContatoForm() {
     const [descripcion, setDescripcion] = useState("")
 
     const [status, setStatus] = useState<{ msg: string; ok: boolean } | null>(null)
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [resetKey, setResetKey] = useState(0)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
-    // TODO: reemplazar con llamadas reales a los servicios
     useEffect(() => {
-        // setEscuelas(await getEscuelas())
-        // setTurnos(await getTurnos())
-        setEscuelas([])
-        setTurnos([])
+        getEscuelas()
+            .then(data => setEscuelas(data.map(e => ({ label: e.nombre, value: String(e.id) }))))
+            .catch(() => setEscuelas([]))
+
+        getTurnos().then(data =>
+            setTurnos(Object.entries(data).map(([id, nombre]) => ({ label: nombre, value: id })))
+        )
     }, [])
 
     async function handleSubmit(e: React.FormEvent) {
@@ -131,17 +127,34 @@ export function ContatoForm() {
             return
         }
 
-        // TODO: llamar al servicio de envío
-        // await enviarDenuncia({ escuela: escuela.value, turno: turno.value, descripcion })
-        console.log("Denuncia:", { escuela: escuela.value, turno: turno.value, descripcion })
+        try {
+            setIsSubmitting(true)
+            await postDenuncia({
+                escuelaId: Number(escuela.value),
+                turno: turno.label,
+                descripcion: descripcion.trim(),
+            })
+            setStatus({ msg: "¡Denuncia enviada con éxito!", ok: true })
+            setShowSuccess(true)
+        } catch {
+            setStatus({ msg: "Ocurrió un error al enviar la denuncia. Inténtalo de nuevo.", ok: false })
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
 
-        setStatus({ msg: "¡Denuncia enviada con éxito!", ok: true })
+    function handleModalAccept() {
+        setShowSuccess(false)
         setEscuela({ label: "", value: "" })
         setTurno({ label: "", value: "" })
         setDescripcion("")
+        setStatus(null)
+        setResetKey(k => k + 1)
     }
 
     return (
+        <>
+        <SuccessModal isOpen={showSuccess} onAccept={handleModalAccept} />
         <form onSubmit={handleSubmit} className={formStyles.form} noValidate>
 
             {/* Escuela */}
@@ -150,6 +163,7 @@ export function ContatoForm() {
                     Escuela
                 </label>
                 <Combobox
+                    key={`escuela-${resetKey}`}
                     id="escuela-input"
                     name="escuela"
                     placeholder="Buscar escuela…"
@@ -165,6 +179,7 @@ export function ContatoForm() {
                     Turno
                 </label>
                 <Combobox
+                    key={`turno-${resetKey}`}
                     id="turno-input"
                     name="turno"
                     placeholder="Buscar turno…"
@@ -198,9 +213,18 @@ export function ContatoForm() {
             )}
 
             {/* Enviar */}
-            <button type="submit" className={formStyles.button}>
-                Enviar denuncia
+            <button type="submit" disabled={isSubmitting} className={formStyles.button}>
+                {isSubmitting ? (
+                    <>
+                        <svg className="inline-block mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                        </svg>
+                        Enviando…
+                    </>
+                ) : "Enviar denuncia"}
             </button>
         </form>
+        </>
     )
 }

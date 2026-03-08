@@ -4,6 +4,7 @@ import type {
     DenunciasPaginatedData,
     DenunciasFilters,
 } from "../constants/components/denuncias.ts";
+import type { DenunciaPayload } from "@/types/denuncias/interfaces.ts";
 
 const BASE_URL = "/api/denuncias";
 
@@ -68,4 +69,15 @@ export async function getAllDenuncias(
  */
 export async function deleteDenuncia(id: number): Promise<void> {
     await apiFetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+}
+
+/**
+ * Crea una denuncia
+ */
+export async function postDenuncia(data: DenunciaPayload): Promise<void> {
+    await apiFetch(BASE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
 }
