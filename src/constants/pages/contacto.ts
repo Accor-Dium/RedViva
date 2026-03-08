@@ -19,3 +19,14 @@ export const SCOPE_MODAL_PARAGRAPH_2 =
 export const SCOPE_MODAL_PARAGRAPH_3 =
 	"La institución actúa únicamente como canal de prevención y recepción de información, sin determinar responsabilidades ni emitir juicios sobre los hechos señalados.";
 export const SCOPE_MODAL_BUTTON_TEXT = "Entendido, continuar";
+
+export const TURNOS = {
+	1: "Matutino",
+	2: "Vespertino"
+}
+
+export const SUCCESS_MODAL = {
+	TITLE: "¡Denuncia enviada!",
+	DESCRIPTION: "Tu denuncia ha sido registrada correctamente. Gracias por contribuir a una comunidad más segura.",
+	BUTTON: "Aceptar",
+} as const
