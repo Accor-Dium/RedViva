@@ -101,14 +101,14 @@ export default function DenunciasPage() {
     const handleExportExcel = async () => {
         setIsExporting(true);
         try {
-            const { items } = await getAllDenuncias(filters);
+            const allItems = await getAllDenuncias(filters);
 
-            if (items.length === 0) {
+            if (allItems.length === 0) {
                 alert(DENUNCIAS_PAGE.EMPTY_STATE);
                 return;
             }
 
-            exportDenunciasToExcel(items);
+            exportDenunciasToExcel(allItems);
         } catch (error) {
             console.error("Error al exportar:", error);
         } finally {

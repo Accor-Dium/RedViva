@@ -1,5 +1,6 @@
 import { apiFetch } from "./api";
 import type {
+    DenunciaRow,
     DenunciasPaginatedData,
     DenunciasFilters,
 } from "../constants/components/denuncias.ts";
@@ -33,21 +34,33 @@ export async function getDenuncias(
     return res.data;
 }
 
-/**
- * Obtener TODAS las denuncias filtradas (sin paginación, para exportar).
- */
+const MAX_BACKEND_LIMIT = 50;
+
 export async function getAllDenuncias(
     filters: DenunciasFilters = {}
-): Promise<DenunciasPaginatedData> {
-    const params = new URLSearchParams({ page: "1", limit: "10000" });
+): Promise<DenunciaRow[]> {
+    const firstPage = await getDenuncias(1, MAX_BACKEND_LIMIT, filters);
+    const allItems: DenunciaRow[] = [...firstPage.items];
+    const { totalPages } = firstPage.pagination;
 
-    if (filters.escuelaId) params.set("escuelaId", String(filters.escuelaId));
-    if (filters.localidadId) params.set("localidadId", String(filters.localidadId));
-    if (filters.fechaDesde) params.set("fechaDesde", filters.fechaDesde);
-    if (filters.fechaHasta) params.set("fechaHasta", filters.fechaHasta);
+    if (totalPages > 1) {
+        const remainingPages = Array.from(
+            { length: totalPages - 1 },
+            (_, i) => i + 2
+        );
 
-    const res = await apiFetch<DenunciasPaginatedData>(`${BASE_URL}?${params.toString()}`);
-    return res.data;
+        const results = await Promise.all(
+            remainingPages.map((page) =>
+                getDenuncias(page, MAX_BACKEND_LIMIT, filters)
+            )
+        );
+
+        for (const result of results) {
+            allItems.push(...result.items);
+        }
+    }
+
+    return allItems;
 }
 
 /**
