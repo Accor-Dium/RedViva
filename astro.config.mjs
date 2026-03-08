@@ -12,7 +12,10 @@ export default defineConfig({
   site: 'https://www.red-viva.org',
   output: 'server',
   security: {
-    checkOrigin: false,
+    allowedDomains: [
+      { hostname: 'https://www.red-viva.org/' }, 
+      { hostname: 'localhost' }
+    ]
   },
   integrations: [react()],
   image: {
