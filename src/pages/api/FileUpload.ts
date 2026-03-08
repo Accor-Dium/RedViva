@@ -72,18 +72,6 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
 
-    const authHeader = request.headers.get('image-upload-token');
-    const expectedToken = import.meta.env.FILE_UPLOAD_ADMIN_TOKEN;
-
-    if (!expectedToken || authHeader !== expectedToken) {
-        return new Response(
-            JSON.stringify({ error: 'Unauthorized' }),
-            {
-                status: 401,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
-    }
 
     const contentType = request.headers.get('content-type') || '';
     if (!contentType.toLowerCase().includes('multipart/form-data')) {
