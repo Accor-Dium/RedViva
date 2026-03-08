@@ -39,12 +39,12 @@ export interface FilterOption {
 /** Constantes de la página */
 export const DENUNCIAS_PAGE = {
     TITLE: "Denuncias",
-    ADD_BUTTON: "Escuela",
     FILTER_LABEL: "Filtrar por:",
     FILTER_ESCUELA: "Escuela",
     FILTER_LOCALIDAD: "Localidad",
     FILTER_FECHA: "Fecha",
     EXPORT_BUTTON: "Exportar excel",
+    EXPORTING_BUTTON: "Exportando...",
     ITEMS_PER_PAGE: 10,
     EMPTY_STATE: "No se encontraron denuncias.",
     TABLE_HEADERS: {
@@ -61,5 +61,17 @@ export const DENUNCIAS_PAGE = {
         CONFIRM: "Eliminar",
         CANCEL: "Cancelar",
         DELETING: "Eliminando...",
+    },
+    EXCEL: {
+        FILENAME: "denuncias",
+        SHEET_NAME: "Denuncias",
+        COLUMNS: {
+            ID: "ID",
+            ESCUELA: "Escuela",
+            LOCALIDAD: "Localidad",
+            TURNO: "Turno",
+            DESCRIPCION: "Descripción",
+            FECHA: "Fecha de creación",
+        },
     },
 } as const;
