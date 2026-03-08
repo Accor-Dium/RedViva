@@ -51,3 +51,7 @@ export async function createTarjeta(
     
     return res.data;
 }
+
+export async function deleteTarjeta(id: number): Promise<void> {
+    await apiFetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+}

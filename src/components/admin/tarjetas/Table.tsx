@@ -2,7 +2,7 @@ import { TABLE } from '@/constants/components/tarjetas';
 import RowTable from './RowTable';
 import type { TableProps } from '@/types/admin/TableProps';
 
-export default function Table({ rows }: TableProps) {
+export default function Table({ rows, onRefresh }: TableProps & { onRefresh: () => void }) {
   return (
     <>
       <div className="space-y-3">
@@ -21,6 +21,7 @@ export default function Table({ rows }: TableProps) {
               descripcion={row.descripcion}
               contador={row.contador}
               fecha_creacion={row.fecha_creacion}
+              onRefresh={onRefresh}
             />
           ))
         )}

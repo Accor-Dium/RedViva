@@ -9,7 +9,7 @@ import TableHeader from './TableHeader';
 import { uploadFile } from '@/services/fileupload.services';
 
 export default function CardManager() {
-    const nextIdRef = useRef(1);
+    
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -19,7 +19,6 @@ export default function CardManager() {
     const [images, setImages] = useState<ImageStructure[]>([]);
     const [enlace, setEnlace] = useState('');
     const [descripcion, setDescripcion] = useState('');
-
 
 
     const isValidUrl = (url: string): boolean => {
@@ -49,32 +48,38 @@ export default function CardManager() {
     };
 
 
+    const nextIdRef = useRef(1);
 
-    const fetchTarjetas = useCallback(
-        async (pageNum: number) => {
-            setIsLoading(true);
-            try {
-                const { items, pagination } = await getTarjetasPaginated(
-                    pageNum,
-                    TARJETAS_PAGE.ITEMS_PER_PAGE,
-                );
+const fetchTarjetas = useCallback(
+    async (pageNum: number) => {
+        setIsLoading(true);
+        try {
+            const { items, pagination } = await getTarjetasPaginated(
+                pageNum,
+                TARJETAS_PAGE.ITEMS_PER_PAGE,
+            );
 
-                setRows(items);
-                setTotalPages(pagination.totalPages);
-                setPage(pagination.page);
-            } catch (error) {
-                console.error("Error al cargar tarjetas:", error);
-            } finally {
-                setIsLoading(false);
+            setRows(items);
+            setTotalPages(pagination.totalPages);
+            setPage(pagination.page);
+            
+            // Inicializar nextIdRef con el ID más alto + 1
+            if (pageNum === 1 && items.length > 0) {
+                const maxId = Math.max(...items.map(item => item.id));
+                nextIdRef.current = maxId + 1;
             }
-        },
-        []
-    );
+        } catch (error) {
+            console.error("Error al cargar tarjetas:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    },
+    []
+);
 
-
-    useEffect(() => {
-        fetchTarjetas(1);
-    }, [fetchTarjetas]);
+useEffect(() => {
+    fetchTarjetas(1);
+}, [fetchTarjetas]);
 
     const handlePageChange = (newPage: number) => {
         fetchTarjetas(newPage);
@@ -169,12 +174,13 @@ export default function CardManager() {
                         {(closeModal) => (
                             <div className={STYLES.modalContent}>
                                 <h2 className={STYLES.headerModal}>{TARJETAS_PAGE.NEW}</h2>
-
+                                <label htmlFor="link"></label>
                                 <section className={STYLES.section}>
+                                    
                                     <input
                                         value={enlace}
                                         onChange={handleEnlaceChange}
-                                        placeholder="https://ejemplo.com"
+                                        placeholder="Enlace para redireccionar (https://ejemplo.com)"
                                         className={`${STYLES.input} ${urlError ? 'border-red-500' : ''}`}
                                         aria-label='input-enlace'
                                     />
@@ -207,7 +213,7 @@ export default function CardManager() {
                 {isLoading ? (
                     <div className={STYLES.loadingContainer}>{TARJETAS_PAGE.LOADING}</div>
                 ) : (
-                    <Table rows={rows} />
+                    <Table rows={rows} onRefresh={() => fetchTarjetas(page)}/>
                 )}
             </div>
 
