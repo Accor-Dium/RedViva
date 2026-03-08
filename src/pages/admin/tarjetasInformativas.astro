@@ -1,0 +1,16 @@
+---
+import AdminLayout from '../layouts/AdminLayout.astro';
+import Title from '../../components/Title.astro';
+import CardManager from '../../components/admin/tarjetas/CardManager';
+
+const styles = {
+  main: "max-h-screen w-full flex flex-col items-center",
+};
+---
+
+<AdminLayout title='Tarjetas Informativas - Admin'>
+  <main class={styles.main}>
+      <Title name="TARJETAS INFORMATIVAS" color="text-black"/>
+      <CardManager client:load />
+  </main>
+</AdminLayout>
