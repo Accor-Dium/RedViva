@@ -1,24 +1,16 @@
 ---
-import AdminLayout from '../layouts/Layout_admin.astro';
-import Modal from '../../components/admin/Modal.tsx';
-import Table from '../../components/admin/Table';
+import AdminLayout from '../layouts/AdminLayout.astro';
+import Title from '../../components/Title.astro';
+import CardManager from '../../components/admin/tarjetas/CardManager';
+
+const styles = {
+  main: "max-h-screen w-full flex flex-col items-center",
+};
 ---
 
-<AdminLayout>
-    <main class="p-5">
-        
-        <h1 class="text-4xl">Tarjetas Informativas</h1>
-
-        
-        <Modal client:load buttonText="Ver información" buttonClassName="bg-[#C77DFF] px-4 py-2 text-white rounded-lg hover:scale-105 transition-transform cursor-pointer">
-            <div>
-                <h1 class="text-2xl font-bold mb-4">Mi Título</h1>
-                <p class="text-gray-600">Este es mi contenido personalizado</p>
-                <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Imagen" class="w-full mt-4 rounded" />  
-            </div>
-        </Modal>
-        <Table client:load></Table>
-
-        
-    </main>
+<AdminLayout title='Tarjetas Informativas - Admin'>
+  <main class={styles.main}>
+      <Title name="TARJETAS INFORMATIVAS" color="text-black"/>
+      <CardManager client:load />
+  </main>
 </AdminLayout>
