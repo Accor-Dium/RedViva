@@ -2,6 +2,7 @@ import { DENUNCIAS_PAGE } from "../../../constants/components/denuncias.ts";
 import type { DenunciasFilters, FilterOption } from "../../../constants/components/denuncias.ts";
 import { Funnel } from "@phosphor-icons/react";
 import { useState, useMemo } from "react";
+import DateRangePicker from "./DateRangePicker.tsx";
 
 interface FilterBarProps {
     escuelas: FilterOption[];
@@ -21,7 +22,6 @@ const styles = {
         comboOption: "px-4 py-2 text-sm text-gray-900 hover:bg-purple-50 cursor-pointer",
         comboOptionActive: "px-4 py-2 text-sm text-white bg-purple-600 cursor-pointer",
         comboEmpty: "px-4 py-2 text-sm text-gray-400",
-        dateInput: "rounded-full bg-purple-600 px-4 py-1.5 text-sm font-medium text-white cursor-pointer outline-none",
     },
 } as const;
 
@@ -162,13 +162,19 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
         onFilterChange(newFilters);
     };
 
-    const handleFechaChange = (value: string) => {
+    const handleDateRangeChange = (fechaDesde?: string, fechaHasta?: string) => {
         const newFilters = { ...filters };
 
-        if (value === "") {
-            delete newFilters.fechaDesde;
+        if (fechaDesde) {
+            newFilters.fechaDesde = fechaDesde;
         } else {
-            newFilters.fechaDesde = value;
+            delete newFilters.fechaDesde;
+        }
+
+        if (fechaHasta) {
+            newFilters.fechaHasta = fechaHasta;
+        } else {
+            delete newFilters.fechaHasta;
         }
 
         onFilterChange(newFilters);
@@ -196,11 +202,11 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
                     placeholder={DENUNCIAS_PAGE.FILTER_LOCALIDAD}
                 />
 
-                <input
-                    type="date"
-                    className={styles.filters.dateInput}
-                    value={filters.fechaDesde ?? ""}
-                    onChange={(e) => handleFechaChange(e.target.value)}
+                <DateRangePicker
+                    fechaDesde={filters.fechaDesde}
+                    fechaHasta={filters.fechaHasta}
+                    placeholder={DENUNCIAS_PAGE.FILTER_FECHA}
+                    onChange={handleDateRangeChange}
                 />
             </div>
         </div>
