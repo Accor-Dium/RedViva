@@ -1,10 +1,6 @@
 import { useState, useRef, useEffect } from "react"
-
-// TODO: importar servicios cuando estén listos
-// import { getEscuelas } from "../../services/escuelas"
-// import { getTurnos }   from "../../services/turnos"
-
-type ComboboxItem = { label: string; value: string }
+import { getEscuelas, getTurnos } from "../../services/catalogos.service"
+import { postDenuncia } from "../../services/denuncias.services"
 
 // ─── Combobox con búsqueda ──────────────────────────────────────────────────
 
@@ -16,14 +12,7 @@ const comboboxStyles = {
     item:      "px-3 py-2 text-sm cursor-pointer hover:bg-red-50 hover:text-red-700",
 }
 
-interface ComboboxProps {
-    id: string
-    name: string
-    placeholder: string
-    items: ComboboxItem[]
-    value: string
-    onSelect: (item: ComboboxItem) => void
-}
+
 
 function Combobox({ id, name, placeholder, items, value, onSelect }: ComboboxProps) {
     const [query, setQuery]   = useState("")
@@ -115,12 +104,14 @@ export function ContatoForm() {
 
     const [status, setStatus] = useState<{ msg: string; ok: boolean } | null>(null)
 
-    // TODO: reemplazar con llamadas reales a los servicios
     useEffect(() => {
-        // setEscuelas(await getEscuelas())
-        // setTurnos(await getTurnos())
-        setEscuelas([])
-        setTurnos([])
+        getEscuelas()
+            .then(data => setEscuelas(data.map(e => ({ label: e.nombre, value: String(e.id) }))))
+            .catch(() => setEscuelas([]))
+
+        getTurnos().then(data =>
+            setTurnos(Object.entries(data).map(([id, nombre]) => ({ label: nombre, value: id })))
+        )
     }, [])
 
     async function handleSubmit(e: React.FormEvent) {
@@ -131,11 +122,17 @@ export function ContatoForm() {
             return
         }
 
-        // TODO: llamar al servicio de envío
-        // await enviarDenuncia({ escuela: escuela.value, turno: turno.value, descripcion })
-        console.log("Denuncia:", { escuela: escuela.value, turno: turno.value, descripcion })
-
-        setStatus({ msg: "¡Denuncia enviada con éxito!", ok: true })
+        try {
+            await postDenuncia({
+                escuelaId: Number(escuela.value),
+                turno: turno.label,
+                descripcion: descripcion.trim(),
+            })
+            setStatus({ msg: "¡Denuncia enviada con éxito!", ok: true })
+        } catch {
+            setStatus({ msg: "Ocurrió un error al enviar la denuncia. Inténtalo de nuevo.", ok: false })
+            return
+        }
         setEscuela({ label: "", value: "" })
         setTurno({ label: "", value: "" })
         setDescripcion("")
