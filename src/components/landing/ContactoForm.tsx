@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import { getEscuelas, getTurnos } from "../../services/catalogos.service"
 import { postDenuncia } from "../../services/denuncias.services"
 import { SuccessModal } from "./SuccessModal"
+import type { ComboboxItem, ComboboxProps } from "../../types/contacto/interfaces"
 
 // ─── Combobox con búsqueda ──────────────────────────────────────────────────
 
