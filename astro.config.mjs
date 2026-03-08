@@ -9,7 +9,11 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://www.red-viva.org',
   output: 'server',
+  security: {
+    checkOrigin: false,
+  },
   integrations: [react()],
   image: {
     domains: ['res.cloudinary.com', 'via.placeholder.com']
