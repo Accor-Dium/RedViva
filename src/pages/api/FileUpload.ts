@@ -53,6 +53,17 @@ const ALLOWED_MIME_TYPES = [
 ];
 
 export const POST: APIRoute = async ({ request }) => {
+    const corsHeaders = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+    };
+     if (request.method === 'OPTIONS') {
+        return new Response(null, {
+            status: 204,
+            headers: corsHeaders,
+        });
+    }
     try {
         ensureCloudinaryConfigured();
     } catch (error: any) {
@@ -222,7 +233,7 @@ export const POST: APIRoute = async ({ request }) => {
         }),
         {
             status: 200,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...corsHeaders  },
         }
     );
 };
