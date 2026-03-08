@@ -36,3 +36,20 @@ export function parseId(id: string | undefined): number | null {
     const parsed = Number(id);
     return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
 }
+
+/**
+ * Parsea y valida un entero positivo desde query params (string | null).
+ * Reutiliza parseId normalizando null → undefined para evitar duplicación (DRY).
+ */
+export function parsePositiveInt(value: string | null): number | null {
+    return parseId(value ?? undefined);
+}
+
+/**
+ * Parsea y valida una fecha desde query params.
+ */
+export function parseDate(value: string | null): Date | null {
+    if (!value) return null;
+    const date = new Date(value);
+    return isNaN(date.getTime()) ? null : date;
+}
