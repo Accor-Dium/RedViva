@@ -60,8 +60,8 @@ export async function getAllDenuncias(
             )
         );
 
-        for (const result of results) {
-            allItems.push(...result.items);
+        for (const page of remainingPages) {
+            const result = await getDenuncias(page, MAX_BACKEND_LIMIT, filters);
         }
     }
 
