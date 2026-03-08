@@ -18,7 +18,7 @@ import {
 
 const styles = {
     formContainer: "w-full flex flex-col gap-5 transition-container",
-    backButton: "self-start text-sm text-gray-600 hover:text-gray-900 mb-5 font-semibold transition-colors",
+    backButton: "self-start text-sm text-gray-600 hover:text-gray-900 mb-5 font-semibold transition-colors cursor-pointer",
     heroBlock: "flex flex-col items-center gap-0 mb-5",
     heroTitle: "text-3xl font-semibold leading-none text-black text-center",
     heroSubtitle: "text-4xl font-bold leading-none text-red-500 text-center",
