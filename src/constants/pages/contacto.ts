@@ -24,3 +24,9 @@ export const TURNOS = {
 	1: "Matutino",
 	2: "Vespertino"
 }
+
+export const SUCCESS_MODAL = {
+	TITLE: "¡Denuncia enviada!",
+	DESCRIPTION: "Tu denuncia ha sido registrada correctamente. Gracias por contribuir a una comunidad más segura.",
+	BUTTON: "Aceptar",
+} as const
