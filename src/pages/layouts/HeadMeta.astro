@@ -1,0 +1,23 @@
+---
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+    title: string;
+    description?: string;
+    enableTransitions?: boolean;
+}
+
+const {
+    title,
+    description = "Red Viva - #ConectarSinViolencia",
+    enableTransitions = true,
+} = Astro.props as Props;
+---
+
+{enableTransitions && <ClientRouter />}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content={description} />
+<meta name="theme-color" content="#7c3aed" />
+<link rel="icon" type="image/x-icon" href="/logos/buttlefly.ico" />
+<title>{title}</title>
