@@ -1,0 +1,15 @@
+export const FOOTER_TEXTS = {
+	GOVERNMENT: "Gobierno de Alvaro Obregon",
+	BRAND: "Red Viva",
+	RIGHTS: "Todos los derechos reservados.",
+	ADDRESS: "Privada Aquiles Serdán, s/n, Col. Centro, CP 58920.",
+	EMAIL: "Inmujer_alvaro.obregon@hotmail.com",
+	PHONE: "443 687 7743",
+	COPYRIGHT: "© 2026 Red Viva",
+	INSTITUTION: "Instituto Municipal de la Mujer",
+	MUNICIPAL_TERM: "H. Ayuntamiento de Álvaro Obregón, Mich. 2024–2027",
+	MUNICIPAL_URL: "https://alvaroobregon2427.gob.mx/",
+	HASHTAG: "#ConectarSinViolencia",
+	DEVELOPED_BY: "Desarrollado por Accordium Software",
+	CONTACT: "Contacto: accordiumsoftware@gmail.com",
+};
