@@ -1,7 +1,7 @@
 export interface AdminNavLink {
     label: string;
     href: string;
-    icon: "estadisticas" | "denuncias" | "tarjetas";
+    icon: "estadisticas" | "denuncias" | "tarjetas" | "catalogos";
 }
 
 export const ADMIN_NAV_LINKS: readonly AdminNavLink[] = [
