@@ -10,7 +10,7 @@ interface FilterBarProps {
 }
 
 const styles = {
-    container: "flex flex-wrap items-center justify-between gap-4",
+    container: "flex justify-end items-center",
     addButton: "flex items-center gap-1 rounded-full bg-purple-500 px-5 py-1.5 text-sm font-medium text-white hover:bg-purple-600 transition-colors cursor-pointer",
     filters: {
         wrapper: "flex flex-wrap items-center gap-3",
@@ -38,10 +38,6 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
 
     return (
         <div className={styles.container}>
-            <button className={styles.addButton}>
-                <Plus size={16} weight="bold" />
-                {DENUNCIAS_PAGE.ADD_BUTTON}
-            </button>
 
             <div className={styles.filters.wrapper}>
                 <span className={styles.filters.label}>

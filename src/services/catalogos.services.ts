@@ -5,7 +5,7 @@ import type { FilterOption } from "../constants/components/denuncias.ts";
  * Obtener todas las instituciones educativas
  */
 export async function getEscuelas(): Promise<FilterOption[]> {
-    const res = await apiFetch<FilterOption[]>("/api/instituciones-educativas");
+    const res = await apiFetch<FilterOption[]>("/api/instituciones");
     return res.data;
 }
 
