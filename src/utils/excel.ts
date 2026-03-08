@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
-import type { DenunciaRow } from "../constants/components/denuncias";
-import { DENUNCIAS_PAGE } from "../constants/components/denuncias";
+import type { DenunciaRow } from "../constants/components/denuncias.ts";
+import { DENUNCIAS_PAGE } from "../constants/components/denuncias.ts";
 
 const { EXCEL } = DENUNCIAS_PAGE;
 
