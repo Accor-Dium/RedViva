@@ -66,7 +66,6 @@ function SearchableSelect({
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value);
         setIsOpen(true);
-        // Si borra todo el texto, limpiar el filtro
         if (e.target.value === "") {
             onChange(undefined);
         }
@@ -76,8 +75,12 @@ function SearchableSelect({
         <div
             className={styles.filters.comboWrapper}
             onBlur={(e) => {
-                // Cerrar solo si el foco sale del contenedor completo
-                if (!e.currentTarget.contains(e.relatedTarget)) {
+                const relatedTarget = e.relatedTarget;
+                if (
+                    !relatedTarget ||
+                    !(relatedTarget instanceof Node) ||
+                    !e.currentTarget.contains(relatedTarget)
+                ) {
                     setIsOpen(false);
                     setQuery("");
                 }
@@ -91,13 +94,12 @@ function SearchableSelect({
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
             />
-            {/* Botón para limpiar selección */}
             {value && (
                 <button
                     type="button"
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-xs"
                     onMouseDown={(e) => {
-                        e.preventDefault(); // Evita que el blur cierre antes del click
+                        e.preventDefault();
                         handleClear();
                     }}
                 >
@@ -134,10 +136,9 @@ function SearchableSelect({
 
 export default function FilterBar({ escuelas, localidades, filters, onFilterChange }: FilterBarProps) {
 
-    /** Al seleccionar escuela → limpiar localidad (y viceversa) */
     const handleEscuelaChange = (id: number | undefined) => {
         const newFilters = { ...filters };
-        delete newFilters.localidadId; // Excluyente: limpiar localidad
+        delete newFilters.localidadId;
 
         if (id) {
             newFilters.escuelaId = id;
@@ -150,7 +151,7 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
 
     const handleLocalidadChange = (id: number | undefined) => {
         const newFilters = { ...filters };
-        delete newFilters.escuelaId; // Excluyente: limpiar escuela
+        delete newFilters.escuelaId;
 
         if (id) {
             newFilters.localidadId = id;
@@ -181,7 +182,6 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
                     {DENUNCIAS_PAGE.FILTER_LABEL}
                 </span>
 
-                {/* Escuela — searchable para catálogos grandes */}
                 <SearchableSelect
                     options={escuelas}
                     value={filters.escuelaId}
@@ -189,7 +189,6 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
                     placeholder={DENUNCIAS_PAGE.FILTER_ESCUELA}
                 />
 
-                {/* Localidad — searchable para catálogos grandes */}
                 <SearchableSelect
                     options={localidades}
                     value={filters.localidadId}
@@ -197,7 +196,6 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
                     placeholder={DENUNCIAS_PAGE.FILTER_LOCALIDAD}
                 />
 
-                {/* Fecha */}
                 <input
                     type="date"
                     className={styles.filters.dateInput}
