@@ -4,23 +4,26 @@ import Layout from "../layouts/Layout.astro"
 import { GRADIENT_COLORS } from "../../constants/components/layout"
 import Title from "../../components/Title.astro"
 import ImageGallery from "../../components/layout/ImageGallery.astro"
+import { RATIO_DEFAULT } from "../../constants/components/tarjetas"
 import { prisma } from "../../lib/prisma"
 import { getImageRatioFromCloudinary } from "../../utils/ratio"
 
 const styles = {
-    main: ""
+    main: " justify-center gap-5 flex flex-col"
 }
 
 // Obtener tarjetas informativas desde la base de datos
 const tarjetas = await prisma.tarj_informativas.findMany({
     orderBy: { fecha_creacion: "desc" },
+    take: 50,
 })
-
 // Mapear tarjetas a formato de ImageGallery
 const imageItems = await Promise.all(
     tarjetas.map(async (tarjeta) => {
         const src = tarjeta.imagen || "https://via.placeholder.com/400x400?text=Sin+Imagen"
-        const ratio = await getImageRatioFromCloudinary(tarjeta.imagen)
+        const ratio = tarjeta.imagen
+            ? await getImageRatioFromCloudinary(tarjeta.imagen)
+            : RATIO_DEFAULT
 
         return {
             id: `tarjeta-${tarjeta.id}`,
@@ -36,7 +39,7 @@ const imageItems = await Promise.all(
 <Layout gradientFrom={GRADIENT_COLORS.directorio.from} gradientTo={GRADIENT_COLORS.directorio.to}>
     <main class={styles.main}>
         <Title name="CONOCE TUS DERECHOS" />
-        <div class="mt-12 w-full">
+        <div class=" w-full">
             <ImageGallery images={imageItems} />
         </div>
     </main>

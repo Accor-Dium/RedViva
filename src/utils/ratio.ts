@@ -1,13 +1,8 @@
-export type CardRatio = "1:1" | "3:4" | "4:3"
-
-const RATIO_VALUES: Record<CardRatio, number> = {
-	"1:1": 1,
-	"3:4": 3 / 4,
-	"4:3": 4 / 3,
-}
+import { RATIO_DEFAULT, RATIO_VALUES } from "../constants/components/tarjetas"
+import type { CardRatio } from "../types/directorio/InterfaceTarjInformativas"
 
 export function getClosestRatio(width: number, height: number): CardRatio {
-	if (!width || !height) return "1:1"
+	if (!width || !height) return RATIO_DEFAULT
 
 	const aspect = width / height
 	const entries = Object.entries(RATIO_VALUES) as [CardRatio, number][]
@@ -28,25 +23,25 @@ export function buildCloudinaryInfoUrl(imageUrl: string): string | null {
 }
 
 export async function getImageRatioFromCloudinary(imageUrl: string | null): Promise<CardRatio> {
-	if (!imageUrl) return "1:1"
+	if (!imageUrl) return RATIO_DEFAULT
 
 	const infoUrl = buildCloudinaryInfoUrl(imageUrl)
-	if (!infoUrl) return "1:1"
+	if (!infoUrl) return RATIO_DEFAULT
 
 	try {
 		const response = await fetch(infoUrl)
-		if (!response.ok) return "1:1"
+		if (!response.ok) return RATIO_DEFAULT
 
 		const json = await response.json()
 		const width = Number(json?.input?.width)
 		const height = Number(json?.input?.height)
 
 		if (!Number.isFinite(width) || !Number.isFinite(height)) {
-			return "1:1"
+			return RATIO_DEFAULT
 		}
 
 		return getClosestRatio(width, height)
 	} catch {
-		return "1:1"
+		return RATIO_DEFAULT
 	}
 }

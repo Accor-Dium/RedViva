@@ -5,10 +5,28 @@ import { prisma } from "../../../lib/prisma";
 import { successResponse, errorResponse } from "../../../lib/api/helpers";
 
 // Obtener todas las tarjetas informativas
-export async function GET(): Promise<Response> {
+export async function GET({ request }: APIContext): Promise<Response> {
     try {
+        const url = new URL(request.url);
+        const pageParam = url.searchParams.get("page");
+        const limitParam = url.searchParams.get("limit");
+        let page = pageParam ? parseInt(pageParam, 10) : 1;
+        let limit = limitParam ? parseInt(limitParam, 10) : 10;
+        if (isNaN(page) || page < 1) {
+            page = 1;
+        }
+        if (isNaN(limit) || limit < 1) {
+            limit = 10;
+        }
+        const MAX_LIMIT = 50;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        const skip = (page - 1) * limit;
         const tarjetas = await prisma.tarj_informativas.findMany({
             orderBy: { fecha_creacion: "desc" },
+            skip,
+            take: limit,
         });
 
         return successResponse(tarjetas, "Tarjetas informativas obtenidas correctamente");
