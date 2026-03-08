@@ -1,5 +1,6 @@
 import { apiFetch } from "./api";
 import type {
+    DenunciaRow,
     DenunciasPaginatedData,
     DenunciasFilters,
 } from "../constants/components/denuncias.ts";
@@ -32,6 +33,35 @@ export async function getDenuncias(
     const query = buildParams(page, limit, filters);
     const res = await apiFetch<DenunciasPaginatedData>(`${BASE_URL}?${query}`);
     return res.data;
+}
+
+const MAX_BACKEND_LIMIT = 50;
+
+export async function getAllDenuncias(
+    filters: DenunciasFilters = {}
+): Promise<DenunciaRow[]> {
+    const firstPage = await getDenuncias(1, MAX_BACKEND_LIMIT, filters);
+    const allItems: DenunciaRow[] = [...firstPage.items];
+    const { totalPages } = firstPage.pagination;
+
+    if (totalPages > 1) {
+        const remainingPages = Array.from(
+            { length: totalPages - 1 },
+            (_, i) => i + 2
+        );
+
+        const results = await Promise.all(
+            remainingPages.map((page) =>
+                getDenuncias(page, MAX_BACKEND_LIMIT, filters)
+            )
+        );
+
+        for (const result of results) {
+            allItems.push(...result.items);
+        }
+    }
+
+    return allItems;
 }
 
 /**
