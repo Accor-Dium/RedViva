@@ -10,8 +10,9 @@ import type {
 } from "../../../constants/components/denuncias.ts";
 import { FileXls } from "@phosphor-icons/react";
 
-import { getDenuncias, deleteDenuncia } from "../../../services/denuncias.services.ts";
-import { getEscuelas, getLocalidades } from "../../../services/catalogos.service.ts";
+import { getDenuncias, getAllDenuncias, deleteDenuncia } from "../../../services/denuncias.services.ts";
+import { getEscuelas, getLocalidades } from "../../../services/catalogos.services.ts";
+const { exportDenunciasToExcel } = await import("../../../utils/excel.ts");
 
 const styles = {
     container: "flex flex-col gap-6 w-full",
@@ -22,7 +23,7 @@ const styles = {
     },
     export: {
         wrapper: "flex justify-end",
-        button: "flex items-center gap-2 rounded-full bg-purple-500 px-6 py-2 text-sm font-medium text-white hover:bg-purple-600 transition-colors cursor-pointer",
+        button: "flex items-center gap-2 rounded-full bg-purple-500 px-6 py-2 text-sm font-medium text-white hover:bg-purple-600 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed",
     },
 } as const;
 
@@ -32,6 +33,7 @@ export default function DenunciasPage() {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState<DenunciasFilters>({});
     const [isLoading, setIsLoading] = useState(true);
+    const [isExporting, setIsExporting] = useState(false);
 
     const [escuelas, setEscuelas] = useState<FilterOption[]>([]);
     const [localidades, setLocalidades] = useState<FilterOption[]>([]);
@@ -96,6 +98,24 @@ export default function DenunciasPage() {
         setPage(1);
     };
 
+    const handleExportExcel = async () => {
+        setIsExporting(true);
+        try {
+            const allItems = await getAllDenuncias(filters);
+
+            if (allItems.length === 0) {
+                alert(DENUNCIAS_PAGE.EMPTY_STATE);
+                return;
+            }
+
+            exportDenunciasToExcel(allItems);
+        } catch (error) {
+            console.error("Error al exportar:", error);
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
     useEffect(() => {
         fetchCatalogos();
     }, []);
@@ -130,9 +150,13 @@ export default function DenunciasPage() {
             )}
 
             <div className={styles.export.wrapper}>
-                <button className={styles.export.button}>
+                <button
+                    className={styles.export.button}
+                    onClick={handleExportExcel}
+                    disabled={isExporting}
+                >
                     <FileXls size={18} />
-                    {DENUNCIAS_PAGE.EXPORT_BUTTON}
+                    {isExporting ? DENUNCIAS_PAGE.EXPORTING_BUTTON : DENUNCIAS_PAGE.EXPORT_BUTTON}
                 </button>
             </div>
 
