@@ -52,17 +52,6 @@ const ALLOWED_MIME_TYPES = [
     'image/webp',
 ];
 
-
-function parseCookies(cookieHeader: string | null): Record<string, string> {
-    if (!cookieHeader) return {};
-    
-    return cookieHeader.split(';').reduce((cookies, cookie) => {
-        const [name, value] = cookie.trim().split('=');
-        cookies[name] = value;
-        return cookies;
-    }, {} as Record<string, string>);
-}
-
 export const POST: APIRoute = async ({ request }) => {
     try {
         ensureCloudinaryConfigured();
@@ -82,34 +71,6 @@ export const POST: APIRoute = async ({ request }) => {
         );
     }
 
-    const cookieHeader = request.headers.get('cookie');
-    const cookies = parseCookies(cookieHeader);
-    const authToken = cookies['upload_token'];
-    const expectedToken = import.meta.env.FILE_UPLOAD_ADMIN_TOKEN;
-
-    if (!expectedToken || authToken !== expectedToken) {
-        return new Response(
-            JSON.stringify({ error: 'Unauthorized' }),
-            {
-                status: 401,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
-    }
-
-    const contentType = request.headers.get('content-type') || '';
-    if (!contentType.toLowerCase().includes('multipart/form-data')) {
-        return new Response(
-            JSON.stringify({
-                error: 'Content-Type must be multipart/form-data with image files in the "images" field.'
-            }),
-            {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
-    }
-
     let formData: FormData;
     try {
         formData = await request.formData();
@@ -118,6 +79,20 @@ export const POST: APIRoute = async ({ request }) => {
             JSON.stringify({ error: 'Invalid form data payload.' }),
             {
                 status: 400,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+    }
+
+    // Validar token desde FormData
+    const authToken = formData.get('token') as string;
+    const expectedToken = import.meta.env.FILE_UPLOAD_ADMIN_TOKEN;
+
+    if (!expectedToken || authToken !== expectedToken) {
+        return new Response(
+            JSON.stringify({ error: 'Unauthorized' }),
+            {
+                status: 401,
                 headers: { 'Content-Type': 'application/json' },
             }
         );

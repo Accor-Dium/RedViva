@@ -6,12 +6,17 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const isPathAdmin = url.pathname.startsWith("/admin");
   const isLoginPage = url.pathname === "/admin/login"; 
   const isLoggedIn = cookies.has("isLoggedIn");
+  const fileUpload = url.pathname === '/api/FileUpload'
 
   if (isPathAdmin && !isLoginPage && !isLoggedIn) {
     return redirect("/admin/login");
   }
   if (isLoginPage && isLoggedIn) {
     return redirect("/admin/dashboard");
+  }
+
+  if (fileUpload) {
+    return next();
   }
 
   return next();
