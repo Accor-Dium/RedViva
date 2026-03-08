@@ -42,6 +42,7 @@ export async function POST({ request }: APIContext): Promise<Response> {
 
         return successResponse(denuncia, "Denuncia creada correctamente", 201);
     } catch (error) {
+        console.log(error)
         return errorResponse("Error al crear la denuncia");
     }
 }
