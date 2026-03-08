@@ -66,3 +66,31 @@ const styles = {
 
   document.addEventListener("astro:page-load", initAdminMain);
 </script>
+
+<script>
+  let timeout;
+
+  function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(handleLogout, 300000); 
+  }
+
+  function handleLogout() {
+    if (document.cookie.includes("isLoggedIn=true")) {
+      alert("Sesión cerrada por inactividad");
+      // Borramos la cookie expirándola
+      document.cookie = "isLoggedIn=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      localStorage.removeItem('user');
+      window.location.href = "/admin/login";
+    }
+  }
+
+
+  const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+  events.forEach(event => {
+    document.addEventListener(event, resetTimer);
+  });
+
+  // Iniciar el cronómetro apenas carga la página
+  resetTimer();
+</script>

@@ -34,7 +34,7 @@ export const LoginForm = () => {
       const result = await response.json();
 
       if (response.ok) {
-        document.cookie = "isLoggedIn=true; path=/; max-age=30";
+        document.cookie = "isLoggedIn=true; path=/; max-age=1800";
         localStorage.setItem('user', JSON.stringify(result.data));
         window.location.href = "/admin/dashboard";
       } else {
