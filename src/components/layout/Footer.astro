@@ -1,18 +1,67 @@
 ---
-const currentYear = new Date().getFullYear();
+import { EnvelopeSimpleIcon, MapPinLineIcon, PhoneIcon } from "@phosphor-icons/react";
+import { FOOTER_TEXTS } from "../../constants/components/footer";
+
+const styles = {
+  footer: "bg-black/50 backdrop-blur-md border-t border-white/20 mt-20",
+  container: "max-w-7xl mx-auto px-4 py-12",
+  topRow: "pb-6 mb-6 border-b border-white/20 grid grid-cols-1 md:grid-cols-3 gap-4",
+  topItem: "flex items-center justify-center gap-2 text-center text-white text-sm md:text-base",
+  topIcon: "text-pink-300",
+  content: "pb-4 grid grid-cols-1 md:grid-cols-3",
+  column: "space-y-2 px-4",
+  columnMiddle: "space-y-2 px-4 border-y md:border-y-0 md:border-x border-white/30 py-4 md:py-0",
+  textCenterWhite: "text-center text-white text-sm md:text-base",
+  title: "text-center text-white font-bold text-2xl md:text-3xl leading-tight",
+  subtitle: "text-center text-white font-semibold text-lg md:text-xl",
+  municipal: "text-center text-white text-base md:text-lg",
+  hashtag: "text-center text-white font-semibold text-lg md:text-xl",
+  link: "underline",
+  divider: "border-t border-white pt-4",
+  rights: "text-center text-white text-xs md:text-sm",
+};
 ---
 
-<footer class="bg-black/50 backdrop-blur-md border-t border-white/20 mt-20">
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    <div class="pb-4">
-      <p class="text-center text-white  font-bold">
-        Gobierno de Alvaro Obregon
-      </p>
+<footer class={styles.footer}>
+  <div class={styles.container}>
+    <div class={styles.topRow}>
+      <div class={styles.topItem}>
+        <MapPinLineIcon size={20} className={styles.topIcon} />
+        <span>{FOOTER_TEXTS.ADDRESS}</span>
+      </div>
+      <div class={styles.topItem}>
+        <EnvelopeSimpleIcon size={20} className={styles.topIcon} />
+        <span>{FOOTER_TEXTS.EMAIL}</span>
+      </div>
+      <div class={styles.topItem}>
+        <PhoneIcon size={20} className={styles.topIcon} />
+        <span>{FOOTER_TEXTS.PHONE}</span>
+      </div>
     </div>
-    <div class="border-t border-white pt-4">
-      <p class="text-center text-white text-sm">
-        &copy; {currentYear} Red Viva. Todos los derechos reservados.
-      </p>
+
+    <div class={styles.content}>
+      <div class={styles.column}>
+        <p class={styles.title}>{FOOTER_TEXTS.COPYRIGHT}</p>
+        <p class={styles.subtitle}>{FOOTER_TEXTS.INSTITUTION}</p>
+      </div>
+
+      <div class={styles.columnMiddle}>
+        <p class={styles.municipal}>{FOOTER_TEXTS.MUNICIPAL_TERM}</p>
+        <p class={styles.textCenterWhite}>
+          <a href={FOOTER_TEXTS.MUNICIPAL_URL} target="_blank" rel="noopener noreferrer" class={styles.link}>
+            {FOOTER_TEXTS.MUNICIPAL_URL}
+          </a>
+        </p>
+        <p class={styles.hashtag}>{FOOTER_TEXTS.HASHTAG}</p>
+      </div>
+
+      <div class={styles.column}>
+        <p class={styles.textCenterWhite}>{FOOTER_TEXTS.DEVELOPED_BY}</p>
+        <p class={styles.textCenterWhite}>{FOOTER_TEXTS.CONTACT}</p>
+      </div>
+    </div>
+    <div class={styles.divider}>
+      <p class={styles.rights}>{FOOTER_TEXTS.RIGHTS}</p>
     </div>
   </div>
 </footer>
