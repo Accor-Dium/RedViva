@@ -22,3 +22,32 @@ export async function getTarjetasPaginated(
     const res = await apiFetch<TarjetasPaginatedData>(`${BASE_URL}?${query}`);
     return res.data;
 }
+
+
+
+interface CreateTarjetaData {
+    descripcion: string;
+    imagen: string;
+    enlace: string;
+}
+
+interface CreateTarjetaResponse {
+    success: boolean;
+    data: any;
+    message: string;
+}
+
+
+export async function createTarjeta(
+    data: CreateTarjetaData
+): Promise<CreateTarjetaResponse> {
+    const res = await apiFetch<CreateTarjetaResponse>(BASE_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    
+    return res.data;
+}
