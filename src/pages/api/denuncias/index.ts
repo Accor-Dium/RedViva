@@ -2,7 +2,7 @@
 
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/prisma";
-import { successResponse, errorResponse} from "../../../lib/api/helpers";
+import { successResponse, errorResponse } from "../../../lib/api/helpers";
 import { parsePositiveInt, parseDate } from "../../../lib/api/helpers";
 
 // crear denuncia
@@ -11,7 +11,6 @@ export async function POST({ request }: APIContext): Promise<Response> {
         const body = await request.json();
         const { escuelaId, turno, descripcion } = body;
 
-        // validaciones
         if (!escuelaId || typeof escuelaId !== "number" || escuelaId <= 0) {
             return errorResponse("El campo 'escuelaId' es requerido y debe ser un número válido", 400);
         }
@@ -53,7 +52,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
         const page = Math.max(1, Number(url.searchParams.get("page")) || 1);
         const limit = Math.min(50, Math.max(1, Number(url.searchParams.get("limit")) || 10));
 
-        // Validar que los IDs sean números positivos válidos
         const rawEscuelaId = url.searchParams.get("escuelaId");
         const rawLocalidadId = url.searchParams.get("localidadId");
         const rawFechaDesde = url.searchParams.get("fechaDesde");
@@ -62,7 +60,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
         const escuelaId = parsePositiveInt(rawEscuelaId);
         const localidadId = parsePositiveInt(rawLocalidadId);
 
-        // Validar que si se envió el param, sea un número válido
         if (rawEscuelaId && !escuelaId) {
             return errorResponse("El parámetro 'escuelaId' debe ser un número entero positivo", 400);
         }
@@ -70,7 +67,6 @@ export async function GET({ url }: APIContext): Promise<Response> {
             return errorResponse("El parámetro 'localidadId' debe ser un número entero positivo", 400);
         }
 
-        // Validar fechas
         const fechaDesde = parseDate(rawFechaDesde);
         const fechaHasta = parseDate(rawFechaHasta);
 
@@ -88,12 +84,27 @@ export async function GET({ url }: APIContext): Promise<Response> {
         if (localidadId) where.escuela = { localidadId };
 
         if (fechaDesde || fechaHasta) {
-            where.fecha_creacion = {
-                // fechaDesde="2026-03-08" → gte: inicio del día en UTC
-                ...(fechaDesde && { gte: new Date(`${rawFechaDesde}T00:00:00.000Z`) }),
-                // fechaHasta="2026-03-08" → lte: fin del día en UTC
-                ...(fechaHasta && { lte: new Date(`${rawFechaHasta}T23:59:59.999Z`) }),
-            };
+            const fechaFilter: Record<string, Date> = {};
+
+            if (fechaDesde) {
+                fechaFilter.gte = new Date(Date.UTC(
+                    fechaDesde.getFullYear(),
+                    fechaDesde.getMonth(),
+                    fechaDesde.getDate(),
+                    0, 0, 0, 0
+                ));
+            }
+
+            if (fechaHasta) {
+                fechaFilter.lte = new Date(Date.UTC(
+                    fechaHasta.getFullYear(),
+                    fechaHasta.getMonth(),
+                    fechaHasta.getDate(),
+                    23, 59, 59, 999
+                ));
+            }
+
+            where.fecha_creacion = fechaFilter;
         }
 
         const [denuncias, total] = await Promise.all([
