@@ -25,6 +25,7 @@ export interface DenunciasPaginatedData {
 /** Filtros disponibles */
 export interface DenunciasFilters {
     escuelaId?: number;
+    grado?: string;
     localidadId?: number;
     fechaDesde?: string;
     fechaHasta?: string;
