@@ -4,30 +4,42 @@ import Layout from "../layouts/Layout.astro"
 import { GRADIENT_COLORS } from "../../constants/components/layout"
 import Title from "../../components/Title.astro"
 import ImageGallery from "../../components/layout/ImageGallery.astro"
+import { RATIO_DEFAULT } from "../../constants/components/tarjetas"
+import { prisma } from "../../lib/prisma"
+import { getImageRatioFromCloudinary } from "../../utils/ratio"
 
 const styles = {
-    main: ""
+    main: " min-h-screen w-full flex flex-col gap-6 justify-start px-6  md:pt-14 text-white"
 }
 
-// Imágenes random para el directorio
-const imageItems = Array.from({ length: 12 }, (_, i) => {
-    const ratios = ["1:1", "3:4", "4:3"] as const
-    const randomRatio = ratios[Math.floor(Math.random() * ratios.length)]
-    
-    return {
-        id: `image-${i + 1}`,
-        src: `https://picsum.photos/400/400?random=${i + 1}`,
-        alt: `Imagen del directorio ${i + 1}`,
-        ratio: randomRatio,
-        href: "#"
-    }
+// Obtener tarjetas informativas desde la base de datos
+const tarjetas = await prisma.tarj_informativas.findMany({
+    orderBy: { fecha_creacion: "desc" },
+    take: 50,
 })
+// Mapear tarjetas a formato de ImageGallery
+const imageItems = await Promise.all(
+    tarjetas.map(async (tarjeta) => {
+        const src = tarjeta.imagen || "https://via.placeholder.com/400x400?text=Sin+Imagen"
+        const ratio = tarjeta.imagen
+            ? await getImageRatioFromCloudinary(tarjeta.imagen)
+            : RATIO_DEFAULT
+
+        return {
+            id: `tarjeta-${tarjeta.id}`,
+            src,
+            alt: tarjeta.descripcion,
+            ratio,
+            href: tarjeta.enlace,
+        }
+    })
+)
 ---
 
 <Layout gradientFrom={GRADIENT_COLORS.directorio.from} gradientTo={GRADIENT_COLORS.directorio.to}>
     <main class={styles.main}>
         <Title name="CONOCE TUS DERECHOS" />
-        <div class="mt-12 w-full">
+        <div class=" w-full">
             <ImageGallery images={imageItems} />
         </div>
     </main>

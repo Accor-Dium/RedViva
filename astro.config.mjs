@@ -11,6 +11,9 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   output: 'server',
   integrations: [react()],
+  image: {
+    domains: ['res.cloudinary.com', 'via.placeholder.com']
+  },
 
   vite: {
     plugins: [tailwindcss()]

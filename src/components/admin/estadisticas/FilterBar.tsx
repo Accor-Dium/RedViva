@@ -1,12 +1,9 @@
-import { DENUNCIAS_PAGE } from "../../../constants/components/denuncias.ts";
-import type { DenunciasFilters, FilterOption } from "../../../constants/components/denuncias.ts";
+import type { DenunciasFilters } from "../../../constants/components/denuncias.ts";
 import { Funnel } from "@phosphor-icons/react";
-import { useState, useMemo } from "react";
-import DateRangePicker from "./DateRangePicker.tsx";
-
-interface FilterBarProps {
-    escuelas: FilterOption[];
-    localidades: FilterOption[];
+import { useState } from "react";
+import DateRangePicker from "../../admin/denuncias/DateRangePicker.tsx";
+interface StatsFilterBarProps {
+    grados: string[];
     filters: DenunciasFilters;
     onFilterChange: (filters: DenunciasFilters) => void;
 }
@@ -25,50 +22,27 @@ const styles = {
     },
 } as const;
 
-/** Combobox con búsqueda para manejar catálogos grandes */
-function SearchableSelect({
-                              options,
-                              value,
-                              onChange,
-                              placeholder,
-                          }: {
-    options: FilterOption[];
-    value: number | undefined;
-    onChange: (id: number | undefined) => void;
+function GradoSelect({
+    grados,
+    value,
+    onChange,
+    placeholder,
+}: {
+    grados: string[];
+    value: string | undefined;
+    onChange: (grado: string | undefined) => void;
     placeholder: string;
 }) {
-    const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    const selectedOption = useMemo(
-        () => options.find((o) => o.id === value),
-        [options, value]
-    );
-
-    const filtered = useMemo(() => {
-        if (!query.trim()) return options;
-        const lower = query.toLowerCase();
-        return options.filter((o) => o.nombre.toLowerCase().includes(lower));
-    }, [options, query]);
-
-    const handleSelect = (option: FilterOption) => {
-        onChange(option.id);
-        setQuery("");
+    const handleSelect = (grado: string) => {
+        onChange(grado);
         setIsOpen(false);
     };
 
     const handleClear = () => {
         onChange(undefined);
-        setQuery("");
         setIsOpen(false);
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setQuery(e.target.value);
-        setIsOpen(true);
-        if (e.target.value === "") {
-            onChange(undefined);
-        }
     };
 
     return (
@@ -82,18 +56,16 @@ function SearchableSelect({
                     !e.currentTarget.contains(relatedTarget)
                 ) {
                     setIsOpen(false);
-                    setQuery("");
                 }
             }}
         >
-            <input
-                type="text"
+            <button
+                type="button"
                 className={styles.filters.comboInput}
-                placeholder={placeholder}
-                value={isOpen ? query : selectedOption?.nombre ?? ""}
-                onChange={handleInputChange}
-                onFocus={() => setIsOpen(true)}
-            />
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                {value || placeholder}
+            </button>
             {value && (
                 <button
                     type="button"
@@ -108,23 +80,23 @@ function SearchableSelect({
             )}
             {isOpen && (
                 <ul className={styles.filters.comboDropdown}>
-                    {filtered.length === 0 ? (
-                        <li className={styles.filters.comboEmpty}>Sin resultados</li>
+                    {grados.length === 0 ? (
+                        <li className={styles.filters.comboEmpty}>Sin grados disponibles</li>
                     ) : (
-                        filtered.map((option) => (
+                        grados.map((grado) => (
                             <li
-                                key={option.id}
+                                key={grado}
                                 className={
-                                    option.id === value
+                                    grado === value
                                         ? styles.filters.comboOptionActive
                                         : styles.filters.comboOption
                                 }
                                 onMouseDown={(e) => {
                                     e.preventDefault();
-                                    handleSelect(option);
+                                    handleSelect(grado);
                                 }}
                             >
-                                {option.nombre}
+                                {grado}
                             </li>
                         ))
                     )}
@@ -134,29 +106,14 @@ function SearchableSelect({
     );
 }
 
-export default function FilterBar({ escuelas, localidades, filters, onFilterChange }: FilterBarProps) {
-
-    const handleEscuelaChange = (id: number | undefined) => {
+export default function StatsFilterBar({ grados, filters, onFilterChange }: StatsFilterBarProps) {
+    const handleGradoChange = (grado: string | undefined) => {
         const newFilters = { ...filters };
-        delete newFilters.localidadId;
 
-        if (id) {
-            newFilters.escuelaId = id;
+        if (grado) {
+            newFilters.grado = grado;
         } else {
-            delete newFilters.escuelaId;
-        }
-
-        onFilterChange(newFilters);
-    };
-
-    const handleLocalidadChange = (id: number | undefined) => {
-        const newFilters = { ...filters };
-        delete newFilters.escuelaId;
-
-        if (id) {
-            newFilters.localidadId = id;
-        } else {
-            delete newFilters.localidadId;
+            delete newFilters.grado;
         }
 
         onFilterChange(newFilters);
@@ -185,27 +142,20 @@ export default function FilterBar({ escuelas, localidades, filters, onFilterChan
             <div className={styles.filters.wrapper}>
                 <span className={styles.filters.label}>
                     <Funnel size={16} />
-                    {DENUNCIAS_PAGE.FILTER_LABEL}
+                    Filtros
                 </span>
 
-                <SearchableSelect
-                    options={escuelas}
-                    value={filters.escuelaId}
-                    onChange={handleEscuelaChange}
-                    placeholder={DENUNCIAS_PAGE.FILTER_ESCUELA}
-                />
-
-                <SearchableSelect
-                    options={localidades}
-                    value={filters.localidadId}
-                    onChange={handleLocalidadChange}
-                    placeholder={DENUNCIAS_PAGE.FILTER_LOCALIDAD}
+                <GradoSelect
+                    grados={grados}
+                    value={filters.grado}
+                    onChange={handleGradoChange}
+                    placeholder="Seleccionar grado"
                 />
 
                 <DateRangePicker
                     fechaDesde={filters.fechaDesde}
                     fechaHasta={filters.fechaHasta}
-                    placeholder={DENUNCIAS_PAGE.FILTER_FECHA}
+                    placeholder="Seleccionar fechas"
                     onChange={handleDateRangeChange}
                 />
             </div>

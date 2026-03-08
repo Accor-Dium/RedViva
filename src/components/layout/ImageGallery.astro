@@ -1,11 +1,12 @@
 ---
 import Card from "../Card.astro";
+import type { CardRatio } from "../../types/directorio/InterfaceTarjInformativas";
 
 export interface ImageItem {
   id: string;
   src: string;
   alt?: string;
-  ratio?: "1:1" | "3:4" | "4:3";
+  ratio?: CardRatio;
   href?: string;
 }
 
@@ -17,13 +18,14 @@ const { images } = Astro.props as Props;
 ---
 
 <div class="columns-2 lg:columns-3 xl:columns-4 gap-3">
-  {images.map((image) => (
+  {images.map((image, index) => (
     <Card
       src={image.src}
       alt={image.alt}
       ratio={image.ratio || "1:1"}
       href={image.href}
       class="break-inside-avoid"
+      loading={index < 6 ? "eager" : "lazy"}
     />
   ))}
 </div>
