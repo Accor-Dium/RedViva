@@ -52,40 +52,18 @@ const ALLOWED_MIME_TYPES = [
     'image/webp',
 ];
 
-// Orígenes permitidos
-const ALLOWED_ORIGINS = [
-    'https://www.red-viva.org',
-    'https://red-viva.org',
-    'http://localhost:4321',
-    'http://localhost:3000'
-];
 
-function getCorsHeaders(origin: string | null) {
-    const allowedOrigin = origin && ALLOWED_ORIGINS.includes(origin) 
-        ? origin 
-        : ALLOWED_ORIGINS[0];
+function parseCookies(cookieHeader: string | null): Record<string, string> {
+    if (!cookieHeader) return {};
     
-    return {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': allowedOrigin,
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, image-upload-token',
-        'Access-Control-Allow-Credentials': 'true',
-    };
+    return cookieHeader.split(';').reduce((cookies, cookie) => {
+        const [name, value] = cookie.trim().split('=');
+        cookies[name] = value;
+        return cookies;
+    }, {} as Record<string, string>);
 }
 
-export const OPTIONS: APIRoute = async ({ request }) => {
-    const origin = request.headers.get('origin');
-    return new Response(null, {
-        status: 204,
-        headers: getCorsHeaders(origin),
-    });
-};
-
 export const POST: APIRoute = async ({ request }) => {
-    const origin = request.headers.get('origin');
-    const corsHeaders = getCorsHeaders(origin);
-
     try {
         ensureCloudinaryConfigured();
     } catch (error: any) {
@@ -99,20 +77,22 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 500,
-                headers: corsHeaders,
+                headers: { "Content-Type": "application/json" },
             }
         );
     }
 
-    const authHeader = request.headers.get('image-upload-token');
+    const cookieHeader = request.headers.get('cookie');
+    const cookies = parseCookies(cookieHeader);
+    const authToken = cookies['upload_token'];
     const expectedToken = import.meta.env.FILE_UPLOAD_ADMIN_TOKEN;
 
-    if (!expectedToken || authHeader !== expectedToken) {
+    if (!expectedToken || authToken !== expectedToken) {
         return new Response(
             JSON.stringify({ error: 'Unauthorized' }),
             {
                 status: 401,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -125,7 +105,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -138,7 +118,7 @@ export const POST: APIRoute = async ({ request }) => {
             JSON.stringify({ error: 'Invalid form data payload.' }),
             {
                 status: 400,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -153,7 +133,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -166,7 +146,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -203,7 +183,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 400,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -252,7 +232,7 @@ export const POST: APIRoute = async ({ request }) => {
             }),
             {
                 status: 500,
-                headers: corsHeaders,
+                headers: { 'Content-Type': 'application/json' },
             }
         );
     }
@@ -264,7 +244,7 @@ export const POST: APIRoute = async ({ request }) => {
         }),
         {
             status: 200,
-            headers: corsHeaders,
+            headers: { 'Content-Type': 'application/json' },
         }
     );
 };
