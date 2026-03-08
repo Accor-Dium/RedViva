@@ -1,7 +1,8 @@
 import { MODAL_TEXTS } from "@/constants/components/tarjetas";
 import Modal from "./Modal";
 import { EyeIcon } from '@phosphor-icons/react';
-
+import { Trash } from "@phosphor-icons/react/dist/ssr";
+import { deleteTarjeta } from "@/services/tarjetas.services";
 
 const STYLES = {
   row: "w-full shadow-md rounded-xl bg-white border border-gray-200 p-4 mb-4 hover:scale-101 transition-transform duration-300 min-h-[80px]",
@@ -33,10 +34,53 @@ const STYLES = {
 
   // Boton Modal
   buttonModal: "flex flex-row items-center justify-center gap-2 w-12 h-12 rounded-md cursor-pointer bg-pink-400 hover:bg-pink-500 transition-colors",
-  modalWidth: "max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl"
+  modalWidth: "max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl",
+
+  cancelButton: "flex-1 px-4 py-2.5 rounded-lg border-2 border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors cursor-pointer",
+  deleteButton: "flex-1 px-4 py-2.5 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors shadow-sm cursor-pointer",
+
+  deleteModal: "flex flex-col items-center justify-center p-6 max-w-md",
+  deleteIco: "mb-4 bg-red-100 rounded-full p-4",
+  modalText: "font-bold text-2xl text-gray-900 mb-3 text-center",
+  modalText2: "text-gray-600 text-center mb-6 leading-relaxed",
+  flexButtons: "flex gap-3 w-full"
 }
 
-function RowTable(props: Tarjeta) {
+function RowTable(props: Tarjeta & { onRefresh: () => void }) {
+  const handleDelete = async (closeModal: () => void) => {
+    try {
+      closeModal();
+      
+      
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      
+      const rowElement = document.querySelector(`[style*="row-${props.id}"]`) as HTMLElement;
+      
+      if (rowElement) {
+        if (document.startViewTransition) {
+          await document.startViewTransition(() => {
+            rowElement.remove();
+          }).finished;
+        } else {
+          rowElement.style.transition = 'all 0.3s ease-out';
+          rowElement.style.opacity = '0';
+          rowElement.style.transform = 'translateX(-20px) scale(0.95)';
+          await new Promise(resolve => setTimeout(resolve, 300));
+          rowElement.remove();
+        }
+        
+        await deleteTarjeta(props.id);
+        props.onRefresh();
+      } else {
+        await deleteTarjeta(props.id);
+        props.onRefresh();
+      }
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+      alert('Error al eliminar la tarjeta');
+    }
+  };
   return (
     <section
       className={STYLES.row}
@@ -59,8 +103,43 @@ function RowTable(props: Tarjeta) {
           }
         </div>
         <div className={STYLES.actionColumn}>
-          {props.id !== 0 ? (
+          {props.id !== 0 ? (<div className="flex gap-2">
+            <Modal
+              buttonText=""
+              buttonClassName={STYLES.buttonModal}
+              icon={<Trash size={20} color="#fff" />}
+            >
+              {(closeModal) => (
+                <div className={STYLES.deleteModal}>
+                  <div className={STYLES.deleteIco}>
+                    <Trash size={48} color="#dc2626" strokeWidth={2} />
+                  </div>
 
+                  <h2 className={STYLES.modalText}>
+                    {MODAL_TEXTS.BORRAR}
+                  </h2>
+
+                  <p className={STYLES.modalText2}>
+                    {MODAL_TEXTS.SEGURO}
+                  </p>
+
+                  <div className={STYLES.flexButtons}>
+                    <button
+                      className={STYLES.cancelButton}
+                      onClick={closeModal}
+                    >
+                      {MODAL_TEXTS.CANCELAR}
+                    </button>
+                     <button
+                      className={STYLES.deleteButton}
+                      onClick={() => handleDelete(closeModal)}
+                    >
+                      {MODAL_TEXTS.ELIMINAR}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Modal>
             <Modal
               buttonText=""
               buttonClassName={STYLES.buttonModal}
@@ -125,7 +204,9 @@ function RowTable(props: Tarjeta) {
                   </div>
                 </div>
               </div>
-            </Modal>) : (
+            </Modal>
+          </div>) : (
+
             <></>
           )}
         </div>

@@ -74,3 +74,4 @@ export async function GET({ url }: APIContext): Promise<Response> {
         return errorResponse("Error al obtener las tarjetas informativas");
     }
 }
+

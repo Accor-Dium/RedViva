@@ -24,12 +24,18 @@ export const MODAL_TEXTS = {
     ENLACE: "Enlace:",
     DESCRIPCION: "Descripción:",
     CONTADOR: "Contador:",
-    FECHA:"Fecha de Creacion:"
+    FECHA:"Fecha de Creacion:",
+    BORRAR: "¿Desea eliminar esta tarjeta?",
+    SEGURO: "Esta tarjeta será borrada permanentemente. Esta acción no se puede deshacer.",
+    CANCELAR: "Cancelar",
+    ELIMINAR: "Eliminar"
 }
 
 export const TABLE = {
     ADD:"No hay tarjetas. Haz clic en 'Agregar Tarjeta' para crear una."
 }
+
+
 
 export const HEADERS = {
     ID: "ID",
