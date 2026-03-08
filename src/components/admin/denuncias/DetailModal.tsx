@@ -21,7 +21,7 @@ const styles = {
         wrapper: "flex flex-col gap-1",
         label: "text-xs font-semibold text-purple-600 uppercase tracking-wide",
         value: "text-sm text-gray-800",
-        description: "text-sm text-gray-800 whitespace-pre-wrap leading-relaxed bg-gray-50 rounded-lg p-3 max-h-60 overflow-y-auto",
+        description: "text-sm text-gray-800 whitespace-pre-wrap break-words leading-relaxed bg-gray-50 rounded-lg p-3 max-h-60 overflow-y-auto",
     },
     row: "grid grid-cols-2 gap-4",
 } as const;
